@@ -1,0 +1,75 @@
+# ---------------------------------------------------------------
+# Konfiguracja serwera Apache
+# Przyjazne adresy URL + przekierowania 301 ze starych adresów .html
+# ---------------------------------------------------------------
+
+AddDefaultCharset UTF-8
+
+# Wyłączenie listowania zawartości katalogów
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # --- Przekierowania 301 ze starych adresów ---
+
+    # index.html -> katalog ( /index.html -> / , /eng/index.html -> /eng/ )
+    RewriteRule ^(.*)index\.html$ /$1 [R=301,L]
+
+    # pozostale adresy .html -> adres bez rozszerzenia ( /omnie.html -> /omnie )
+    RewriteRule ^(.+)\.html$ /$1 [R=301,L]
+
+    # bezposrednie wejscie na index.php -> katalog
+    # (warunek THE_REQUEST: nie dotyczy wewnetrznego przepisania na front controller)
+    RewriteCond %{THE_REQUEST} /index\.php [NC]
+    RewriteRule ^(.*)index\.php$ /$1 [R=301,L]
+
+    # --- Mapowanie adresow ---
+
+    # sitemap.xml generowana dynamicznie z rejestru podstron
+    RewriteRule ^sitemap\.xml$ sitemap.php [L]
+
+    # blokada bezposredniego dostepu do plikow wewnetrznych
+    RewriteRule ^(includes|templates)(/|$) - [R=404,L]
+
+    # przyjazne adresy URL -> front controller
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# Nieistniejace pliki statyczne rowniez obsluguje front controller (strona 404)
+ErrorDocument 404 /index.php
+
+# --- Kompresja ---
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json application/xml image/svg+xml
+</IfModule>
+
+# --- Cache przegladarki dla plikow statycznych ---
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType text/css "access plus 1 week"
+    ExpiresByType application/javascript "access plus 1 week"
+</IfModule>
+
+# --- Naglowki bezpieczenstwa ---
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# --- Opcjonalnie: wymuszenie https i domeny bez www ---
+# Odkomentuj po upewnieniu sie, ze domena ma wazny certyfikat SSL:
+#
+# <IfModule mod_rewrite.c>
+#     RewriteCond %{HTTPS} off [OR]
+#     RewriteCond %{HTTP_HOST} ^www\. [NC]
+#     RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]
+#     RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+# </IfModule>

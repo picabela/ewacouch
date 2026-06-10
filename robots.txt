@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /includes/
+Disallow: /templates/
+Disallow: /ajax_email/
+Disallow: /eng/ajax_email/
+Disallow: /fr/ajax_email/
+
+Sitemap: https://ewedrychowska-coaching.pl/sitemap.xml
