@@ -2,7 +2,7 @@
                                 <div class="banner-podstrona">
 
                                         <div class="desc2">
-  <div class="odnosnik"> <a class="kont" href="/fr/kontakt"> contactez-moi ici <span class="pom">&#8658;</span></a> </div>
+  <div class="odnosnik"> <a class="kont" href="<?= e(page_url($lang, 'kontakt')) ?>"> contactez-moi ici <span class="pom">&#8658;</span></a> </div>
 
 
 

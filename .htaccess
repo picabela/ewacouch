@@ -1,29 +1,30 @@
 # ---------------------------------------------------------------
 # Konfiguracja serwera Apache
-# Przyjazne adresy URL + przekierowania 301 ze starych adresów .html
+# Przyjazne adresy URL + przekierowania 301 ze starych adresow .html
+# Dziala zarowno w katalogu glownym domeny, jak i w podkatalogu
+# (sciezki wzgledne - Apache sam dodaje katalog instalacji).
 # ---------------------------------------------------------------
 
 AddDefaultCharset UTF-8
 
-# Wyłączenie listowania zawartości katalogów
+# Wylaczenie listowania zawartosci katalogow
 Options -Indexes
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /
 
-    # --- Przekierowania 301 ze starych adresów ---
+    # --- Przekierowania 301 ze starych adresow ---
 
     # index.html -> katalog ( /index.html -> / , /eng/index.html -> /eng/ )
-    RewriteRule ^(.*)index\.html$ /$1 [R=301,L]
+    RewriteRule ^(.*)index\.html$ $1 [R=301,L]
 
     # pozostale adresy .html -> adres bez rozszerzenia ( /omnie.html -> /omnie )
-    RewriteRule ^(.+)\.html$ /$1 [R=301,L]
+    RewriteRule ^(.+)\.html$ $1 [R=301,L]
 
     # bezposrednie wejscie na index.php -> katalog
     # (warunek THE_REQUEST: nie dotyczy wewnetrznego przepisania na front controller)
     RewriteCond %{THE_REQUEST} /index\.php [NC]
-    RewriteRule ^(.*)index\.php$ /$1 [R=301,L]
+    RewriteRule ^(.*)index\.php$ $1 [R=301,L]
 
     # --- Mapowanie adresow ---
 
@@ -38,9 +39,6 @@ Options -Indexes
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^ index.php [L]
 </IfModule>
-
-# Nieistniejace pliki statyczne rowniez obsluguje front controller (strona 404)
-ErrorDocument 404 /index.php
 
 # --- Kompresja ---
 <IfModule mod_deflate.c>

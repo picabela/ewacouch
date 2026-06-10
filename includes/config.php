@@ -9,8 +9,29 @@ if (!defined('EW_SITE')) {
     exit;
 }
 
-/* Adres strony (bez ukośnika na końcu). Używany w canonical, sitemap i danych strukturalnych. */
-define('BASE_URL', 'https://ewedrychowska-coaching.pl');
+/*
+ * Podkatalog instalacji - wykrywany automatycznie, więc strona działa
+ * zarówno w katalogu głównym domeny, jak i w podkatalogu (np. /testowe).
+ * W razie potrzeby można go wpisać na stałe, odkomentowując linię poniżej:
+ */
+// define('BASE_PATH', '/testowe');
+
+if (!defined('BASE_PATH')) {
+    $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+    define('BASE_PATH', preg_replace('#/((eng|fr)/)?(index|sitemap)\.php$#', '', $scriptName));
+}
+
+/*
+ * Adres strony: protokół + domena (bez ścieżki i bez ukośnika na końcu).
+ * Wykrywany automatycznie; do canonical, sitemapy i danych strukturalnych.
+ * Można wpisać na stałe, odkomentowując linię poniżej:
+ */
+// define('BASE_URL', 'https://ewedrychowska-coaching.pl');
+
+if (!defined('BASE_URL')) {
+    $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    define('BASE_URL', $scheme . '://' . ($_SERVER['HTTP_HOST'] ?? 'ewedrychowska-coaching.pl'));
+}
 
 /* Identyfikator Google Analytics */
 define('GA_ID', 'UA-85549321-1');
@@ -29,15 +50,14 @@ $contact = [
 
 /*
  * Konfiguracja wersji językowych.
- *  dir        - podkatalog URL ('' = katalog główny)
- *  asset_base - skąd ładowane są css/images/ajax_email danej wersji
- *  nav        - pozycje menu: [slug, etykieta, atrybut title]
- *               slug zaczynający się od '/' to link zewnętrzny (np. blog)
+ *  dir - podkatalog URL ('' = katalog główny); stąd też ładowane są
+ *        zasoby danej wersji (css/images/ajax_email)
+ *  nav - pozycje menu: [slug, etykieta, atrybut title]
+ *        slug zaczynający się od '/' to link zewnętrzny (np. blog)
  */
 $languages = [
     'pl' => [
         'dir'        => '',
-        'asset_base' => '/',
         'html_lang'  => 'pl',
         'h2'         => 'coach kariery<br>doradca zawodowy',
         'nav_span'   => false,
@@ -58,7 +78,6 @@ $languages = [
     ],
     'en' => [
         'dir'        => 'eng/',
-        'asset_base' => '/eng/',
         'html_lang'  => 'en',
         'h2'         => 'career coach<br>career advisor',
         'nav_span'   => true,
@@ -76,7 +95,6 @@ $languages = [
     ],
     'fr' => [
         'dir'        => 'fr/',
-        'asset_base' => '/fr/',
         'html_lang'  => 'fr',
         'h2'         => 'coach de carrière <br>conseillère professionnelle',
         'nav_span'   => true,
@@ -265,11 +283,18 @@ function e(string $text): string
 function page_url(string $lang, string $slug): string
 {
     global $languages;
-    $url = '/' . $languages[$lang]['dir'];
+    $url = BASE_PATH . '/' . $languages[$lang]['dir'];
     if ($slug !== 'index') {
         $url .= $slug;
     }
     return $url;
+}
+
+/** Ścieżka do zasobów (css/images/ajax_email) danej wersji językowej */
+function asset_base(string $lang): string
+{
+    global $languages;
+    return BASE_PATH . '/' . $languages[$lang]['dir'];
 }
 
 /** Pełny adres podstrony łącznie z domeną (canonical, sitemap, hreflang) */

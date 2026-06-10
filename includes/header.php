@@ -13,6 +13,7 @@ $isHome     = !empty($page['home']);
 $navTag     = $isHome ? 'aside' : 'div';
 $canonical  = absolute_url($lang, $slug);
 $alternates = page_alternates($lang, $slug);
+$siteUrl    = BASE_URL . BASE_PATH . '/';
 
 /* Dane strukturalne schema.org (JSON-LD) */
 $jsonLd = [
@@ -20,9 +21,9 @@ $jsonLd = [
     '@graph'   => [
         [
             '@type'     => 'ProfessionalService',
-            '@id'       => BASE_URL . '/#business',
+            '@id'       => $siteUrl . '#business',
             'name'      => 'Ewa Wędrychowska - coaching kariery, doradztwo zawodowe',
-            'url'       => BASE_URL . '/',
+            'url'       => $siteUrl,
             'telephone' => $contact['phone'],
             'email'     => $contact['email'],
             'address'   => [
@@ -35,7 +36,7 @@ $jsonLd = [
             'sameAs'    => [$contact['facebook'], $contact['linkedin']],
             'founder'   => [
                 '@type'    => 'Person',
-                '@id'      => BASE_URL . '/#person',
+                '@id'      => $siteUrl . '#person',
                 'name'     => $contact['name'],
                 'jobTitle' => 'Coach kariery, doradca zawodowy',
                 'sameAs'   => [$contact['facebook'], $contact['linkedin']],
@@ -43,10 +44,10 @@ $jsonLd = [
         ],
         [
             '@type'      => 'WebSite',
-            '@id'        => BASE_URL . '/#website',
-            'url'        => BASE_URL . '/',
+            '@id'        => $siteUrl . '#website',
+            'url'        => $siteUrl,
             'name'       => 'Ewa Wędrychowska - coaching',
-            'publisher'  => ['@id' => BASE_URL . '/#business'],
+            'publisher'  => ['@id' => $siteUrl . '#business'],
         ],
         [
             '@type'       => 'WebPage',
@@ -54,7 +55,7 @@ $jsonLd = [
             'name'        => $page['title'],
             'description' => $page['description'],
             'inLanguage'  => $langCfg['html_lang'],
-            'isPartOf'    => ['@id' => BASE_URL . '/#website'],
+            'isPartOf'    => ['@id' => $siteUrl . '#website'],
         ],
     ],
 ];
@@ -91,7 +92,7 @@ if (!$isHome && empty($page['noindex'])) {
     <link rel="alternate" hreflang="x-default" href="<?= e(absolute_url('pl', $alternates['pl'])) ?>">
 <?php endif; ?>
 <?php if (!empty($page['cookies'])): ?>
-    <script type="text/javascript" src="/whcookies.js"></script>
+    <script type="text/javascript" src="<?= e(BASE_PATH) ?>/whcookies.js"></script>
 <?php endif; ?>
 <?php if (!empty($page['contact_form'])): ?>
     <style type="text/css" media="screen" charset="utf-8">
@@ -151,7 +152,7 @@ if (!$isHome && empty($page['noindex'])) {
       <ul>
 <?php foreach ($langCfg['nav'] as [$navSlug, $navLabel, $navTitle]):
         $isExternal = $navSlug[0] === '/';
-        $href       = $isExternal ? $navSlug : page_url($lang, $navSlug);
+        $href       = $isExternal ? BASE_PATH . $navSlug : page_url($lang, $navSlug);
         $titleAttr  = $navTitle !== null ? ' title="' . e($navTitle) . '"' : '';
         $activeAttr = (!$isExternal && $navSlug === $slug) ? ' class="active"' : '';
         $label      = $langCfg['nav_span'] ? '<span>' . e($navLabel) . '</span>' : e($navLabel);

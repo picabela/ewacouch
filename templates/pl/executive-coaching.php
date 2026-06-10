@@ -2,7 +2,7 @@
                                 <div class="banner-podstrona">
 
                                               <div class="desc2">
-                                        <div class="odnosnik"> <a class="kont" href="/kontakt"> umów się na sesję wstępną   <br>bezpośrednią lub on-line  <span class="pom">&#8658;</span></a> </div>
+                                        <div class="odnosnik"> <a class="kont" href="<?= e(page_url($lang, 'kontakt')) ?>"> umów się na sesję wstępną   <br>bezpośrednią lub on-line  <span class="pom">&#8658;</span></a> </div>
                                         <h1><p class="tytul">executive coaching</p></h1>
                                       <p class="tresc"> <strong>Executive coaching jest dla Ciebie jeśli:</strong>
 <ul>

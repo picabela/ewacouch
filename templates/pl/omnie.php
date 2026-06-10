@@ -2,7 +2,7 @@
                                 <div class="banner-podstrona">
 
                                         <div class="desc2">
-                                   <div class="odnosnik"> <a class="kont" href="/kontakt"> umów się na sesję wstępną   <br>bezpośrednią lub on-line  <span class="pom">&#8658;</span></a> </div>
+                                   <div class="odnosnik"> <a class="kont" href="<?= e(page_url($lang, 'kontakt')) ?>"> umów się na sesję wstępną   <br>bezpośrednią lub on-line  <span class="pom">&#8658;</span></a> </div>
 <p class="tytul-omnie">o mnie</p>
                                       <p class="tresc-omnie"> Moje doświadczenia, wynikające z wieloletniej pracy z ludźmi oraz znajomość świata biznesu, nabyta w międzynarodowej korporacji, pozwalają mi dzisiaj profesjonalnie wspierać tych, którzy tego potrzebują - organizacje jak i osoby prywatne.</p>
  <p class="tresc-omnie">
@@ -30,7 +30,7 @@ Posiadam również doświadczenie związane z zarządzaniem ludźmi, przez wiele
 <i>Towarzyszenie ludziom w ich zawodowym i personalnym rozwoju to mój zawód i moja pasja.</i>
 </p>
 <div class="przerwa"></div>
-<img src="/images/podpis.jpg" class="podpis"><br>
+<img src="<?= e($assetBase) ?>images/podpis.jpg" class="podpis"><br>
 
 
 <p class="duza-prawa">Zapraszam!

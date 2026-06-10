@@ -3,7 +3,7 @@
 
                                         <div class="desc2">
 
-  <div class="odnosnik"> <a class="kont" href="/eng/kontakt"> please contact me here <span class="pom">&#8658;</span></a> </div>
+  <div class="odnosnik"> <a class="kont" href="<?= e(page_url($lang, 'kontakt')) ?>"> please contact me here <span class="pom">&#8658;</span></a> </div>
 
 
 <p class="tytul-omnie">About me</p>
@@ -35,7 +35,7 @@ Due to this background, I am multilingual, and can work with clients <span class
 <i>My job and my passion is to accompany people in their professional  and personal development.</i>
 </p>
 <div class="przerwa"></div>
-<img src="/eng/images/podpis.jpg" class="podpis">
+<img src="<?= e($assetBase) ?>images/podpis.jpg" class="podpis">
 <br>
 
 

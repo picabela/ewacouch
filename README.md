@@ -60,8 +60,10 @@ Stare adresy `*.html` są przekierowywane (301) na nowe, przyjazne adresy:
 - **Telefon, e-mail, adres** - tablica `$contact` w `includes/config.php`
   (używana na stronach kontaktu, w stopce i danych strukturalnych).
 - **Pozycje menu** - tablice `nav` w `includes/config.php`.
-- **Domena** - stała `BASE_URL` w `includes/config.php` oraz adres sitemapy
-  w `robots.txt`.
+- **Domena / podkatalog** - wykrywane automatycznie. W razie potrzeby można
+  je wpisać na stałe (`BASE_URL`, `BASE_PATH` na początku
+  `includes/config.php`). Adres sitemapy w `robots.txt` jest wpisany ręcznie -
+  zmień go, jeśli zmieni się domena.
 
 ## Uruchomienie lokalne
 
@@ -71,6 +73,20 @@ php -S localhost:8080 dev-router.php
 
 ## Wdrożenie
 
-Wymagany serwer Apache z `mod_rewrite` i PHP (7.4+). Wystarczy wgrać pliki
-do katalogu głównego domeny. Po upewnieniu się, że domena ma certyfikat SSL,
-warto odkomentować blok wymuszający `https` na końcu pliku `.htaccess`.
+Wymagany serwer Apache z `mod_rewrite` i PHP (7.4+).
+
+1. Wgraj **wszystkie** pliki - łącznie z ukrytymi plikami `.htaccess`
+   (w katalogu głównym oraz w `includes/` i `templates/`). Klienty FTP
+   często domyślnie ukrywają pliki zaczynające się od kropki!
+2. Strona może działać w katalogu głównym domeny **lub w podkatalogu**
+   (np. `domena.pl/testowe/`) - podkatalog i domena wykrywane są
+   automatycznie, niczego nie trzeba zmieniać.
+3. `robots.txt` i `sitemap.xml` są brane pod uwagę przez Google tylko
+   z katalogu głównego domeny - w podkatalogu testowym to bez znaczenia.
+4. Po upewnieniu się, że domena ma certyfikat SSL, warto odkomentować
+   blok wymuszający `https` na końcu pliku `.htaccess`.
+
+Jeśli po wgraniu strona nie działa (błąd 404/500 na podstronach),
+najczęstsze przyczyny to: brak wgranego pliku `.htaccess` lub wyłączona
+obsługa `.htaccess` na hostingu (opcja `AllowOverride` - do włączenia
+w panelu hostingu lub u administratora).

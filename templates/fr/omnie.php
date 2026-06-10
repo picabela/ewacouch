@@ -2,7 +2,7 @@
                                 <div class="banner-podstrona">
 
                                         <div class="desc2">
-  <div class="odnosnik"> <a class="kont" href="/fr/kontakt"> contactez-moi ici <span class="pom">&#8658;</span></a> </div>
+  <div class="odnosnik"> <a class="kont" href="<?= e(page_url($lang, 'kontakt')) ?>"> contactez-moi ici <span class="pom">&#8658;</span></a> </div>
 
 
 <p class="tytul-omnie">Je me présente </p>
@@ -34,7 +34,7 @@ Mes langues de travail sont <span class="niebieska"><strong>le polonais, le fran
 <i>Mon métier et ma passion, c’est d’accompagner les autres dans leur développement personnel et professionnel.</i>
 </p>
 <div class="przerwa"></div>
-<img src="/fr/images/podpis.jpg" class="podpis">
+<img src="<?= e($assetBase) ?>images/podpis.jpg" class="podpis">
 <br>
 
 <p class="duza-prawa">Vous êtes les bienvenus !

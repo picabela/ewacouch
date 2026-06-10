@@ -5,6 +5,9 @@
  * Na serwerze produkcyjnym ten plik nie jest uzywany.
  */
 
+/* Wbudowany serwer PHP startuje z katalogu strony, wiec bez podkatalogu */
+define('BASE_PATH', '');
+
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 /* sitemap.xml -> generator */

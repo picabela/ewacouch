@@ -18,7 +18,7 @@ if (!defined('EW_SITE')) {
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 footer">
 <?php if (!empty($page['social_footer'])): ?>
                   <p class="fb">znajdź mnie na: <br>
-                 <a href="<?= e($contact['facebook']) ?>" target="_blank"> <img src="/images/fb.png"></a>&nbsp;  <a href="<?= e($contact['linkedin']) ?>"><img src="/images/linkedin.png"></p>
+                 <a href="<?= e($contact['facebook']) ?>" target="_blank"> <img src="<?= e($assetBase) ?>images/fb.png"></a>&nbsp;  <a href="<?= e($contact['linkedin']) ?>"><img src="<?= e($assetBase) ?>images/linkedin.png"></p>
 <?php endif; ?>
                 </div>
             </footer>  <!-- .row -->

@@ -12,20 +12,29 @@ require __DIR__ . '/includes/config.php';
 $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
 $path = rawurldecode($path);
 
-/* Bezpośrednie wejście na index.php -> strona główna */
-if (preg_match('#^(/(?:eng|fr))?/index\.php$#', $path, $m)) {
-    header('Location: ' . ($m[1] ?? '') . '/', true, 301);
+/* Ścieżka względem katalogu instalacji (strona może być w podkatalogu) */
+$rel = $path;
+if (BASE_PATH !== '' && strpos($path, BASE_PATH) === 0) {
+    $rel = substr($path, strlen(BASE_PATH));
+}
+if ($rel === '') {
+    $rel = '/';
+}
+
+/* Bezpośrednie wejście na index.php -> katalog */
+if (preg_match('#^(.*/)index\.php$#', $rel, $m)) {
+    header('Location: ' . BASE_PATH . $m[1], true, 301);
     exit;
 }
 
 /* Adresy z ukośnikiem na końcu (poza katalogami językowymi) -> wersja bez ukośnika */
-if ($path !== '/' && substr($path, -1) === '/' && !preg_match('#^/(eng|fr)/$#', $path)) {
-    header('Location: ' . rtrim($path, '/'), true, 301);
+if ($rel !== '/' && substr($rel, -1) === '/' && !preg_match('#^/(eng|fr)/$#', $rel)) {
+    header('Location: ' . BASE_PATH . rtrim($rel, '/'), true, 301);
     exit;
 }
 
 /* Rozpoznanie języka i podstrony, np. /eng/omnie -> en + omnie */
-$segments = array_values(array_filter(explode('/', trim($path, '/')), 'strlen'));
+$segments = array_values(array_filter(explode('/', trim($rel, '/')), 'strlen'));
 
 $lang = 'pl';
 if (isset($segments[0]) && in_array($segments[0], ['eng', 'fr'], true)) {
@@ -43,7 +52,7 @@ if (count($segments) > 1 || !isset($pages[$lang][$slug]) || $slug === '404') {
 
 $page      = $pages[$lang][$slug];
 $langCfg   = $languages[$lang];
-$assetBase = $langCfg['asset_base'];
+$assetBase = asset_base($lang);
 
 $template = $slug === '404'
     ? __DIR__ . '/templates/404.php'
