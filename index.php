@@ -9,7 +9,7 @@ define('EW_SITE', true);
 
 require __DIR__ . '/includes/config.php';
 
-$path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
+$path = parse_url(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/', PHP_URL_PATH);
 $path = rawurldecode($path);
 
 /* Ścieżka względem katalogu instalacji (strona może być w podkatalogu) */
@@ -42,7 +42,7 @@ if (isset($segments[0]) && in_array($segments[0], ['eng', 'fr'], true)) {
     array_shift($segments);
 }
 
-$slug = $segments[0] ?? 'index';
+$slug = isset($segments[0]) ? $segments[0] : 'index';
 
 /* Nieznany adres lub zagnieżdżona ścieżka -> strona 404 */
 if (count($segments) > 1 || !isset($pages[$lang][$slug]) || $slug === '404') {

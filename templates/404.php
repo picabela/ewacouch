@@ -1,5 +1,5 @@
 <?php if (!defined('EW_SITE')) { http_response_code(404); exit; }
-[$nfTitle, $nfText, $nfLink] = $langCfg['not_found'];
+list($nfTitle, $nfText, $nfLink) = $langCfg['not_found'];
 ?>
                                 <div class="banner-podstrona">
 

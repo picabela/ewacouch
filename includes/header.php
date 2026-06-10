@@ -22,7 +22,7 @@ $jsonLd = [
         [
             '@type'     => 'ProfessionalService',
             '@id'       => $siteUrl . '#business',
-            'name'      => 'Ewa Wędrychowska - coaching kariery, doradztwo zawodowe',
+            'name'      => $langCfg['business_name'],
             'url'       => $siteUrl,
             'telephone' => $contact['phone'],
             'email'     => $contact['email'],
@@ -38,7 +38,7 @@ $jsonLd = [
                 '@type'    => 'Person',
                 '@id'      => $siteUrl . '#person',
                 'name'     => $contact['name'],
-                'jobTitle' => 'Coach kariery, doradca zawodowy',
+                'jobTitle' => $langCfg['job_title'],
                 'sameAs'   => [$contact['facebook'], $contact['linkedin']],
             ],
         ],
@@ -115,7 +115,7 @@ if (!$isHome && empty($page['noindex'])) {
 		});
 	</script>
 <?php endif; ?>
-<?php if ($page['ga'] ?? true): ?>
+<?php if (!isset($page['ga']) || $page['ga']): ?>
     <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -150,7 +150,8 @@ if (!$isHome && empty($page['noindex'])) {
 
                                     <nav id="nav">
       <ul>
-<?php foreach ($langCfg['nav'] as [$navSlug, $navLabel, $navTitle]):
+<?php foreach ($langCfg['nav'] as $navItem):
+        list($navSlug, $navLabel, $navTitle) = $navItem;
         $isExternal = $navSlug[0] === '/';
         $href       = $isExternal ? BASE_PATH . $navSlug : page_url($lang, $navSlug);
         $titleAttr  = $navTitle !== null ? ' title="' . e($navTitle) . '"' : '';
@@ -170,7 +171,7 @@ if (!$isHome && empty($page['noindex'])) {
         if ($flagLang === $lang) {
             $flags[] = $flagLabel;
         } else {
-            $altSlug = $page['alt'][$flagLang] ?? null;
+            $altSlug = isset($page['alt'][$flagLang]) ? $page['alt'][$flagLang] : null;
             $flagHref = $altSlug !== null ? page_url($flagLang, $altSlug) : '#';
             $flags[] = '<a href="' . e($flagHref) . '">' . $flagLabel . '</a>';
         }

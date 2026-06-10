@@ -8,7 +8,11 @@
 AddDefaultCharset UTF-8
 
 # Wylaczenie listowania zawartosci katalogow
-Options -Indexes
+# (celowo bez "Options -Indexes" - wiele hostingow blokuje dyrektywe Options
+# w .htaccess i kazde zadanie konczyloby sie bledem 500)
+<IfModule mod_autoindex.c>
+    IndexIgnore *
+</IfModule>
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
@@ -32,7 +36,8 @@ Options -Indexes
     RewriteRule ^sitemap\.xml$ sitemap.php [L]
 
     # blokada bezposredniego dostepu do plikow wewnetrznych
-    RewriteRule ^(includes|templates)(/|$) - [R=404,L]
+    # (front controller zwroci strone 404)
+    RewriteRule ^(includes|templates)(/|$) index.php [L]
 
     # przyjazne adresy URL -> front controller
     RewriteCond %{REQUEST_FILENAME} !-f
