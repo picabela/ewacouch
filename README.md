@@ -12,6 +12,8 @@ sitemap.php          dynamicznie generowana mapa strony (dostępna pod /sitemap.
 robots.txt           wskazówki dla robotów + adres sitemapy
 .htaccess            przyjazne URL-e, przekierowania 301 z *.html, kompresja, cache
 dev-router.php       router do lokalnego testowania (php -S localhost:8080 dev-router.php)
+diagnostyka.php      strona diagnostyczna instalacji (otwórz /diagnostyka.php na serwerze)
+update.php           panel aktualizacji strony z GitHuba (opis w AKTUALIZACJA.md)
 whcookies.js         pasek informacji o cookies (tylko polska strona główna)
 
 includes/
@@ -86,7 +88,13 @@ Wymagany serwer Apache z `mod_rewrite` i PHP (7.4+).
 4. Po upewnieniu się, że domena ma certyfikat SSL, warto odkomentować
    blok wymuszający `https` na końcu pliku `.htaccess`.
 
-Jeśli po wgraniu strona nie działa (błąd 404/500 na podstronach),
-najczęstsze przyczyny to: brak wgranego pliku `.htaccess` lub wyłączona
-obsługa `.htaccess` na hostingu (opcja `AllowOverride` - do włączenia
-w panelu hostingu lub u administratora).
+## Rozwiązywanie problemów
+
+Jeśli po wgraniu strona nie działa (błąd 404/500 na podstronach), otwórz
+w przeglądarce **`adres-strony/diagnostyka.php`** - strona sama sprawdzi
+serwer (PHP, pliki .htaccess, mod_rewrite, wykrywanie ścieżki) i powie,
+co naprawić. Po rozwiązaniu problemu usuń plik `diagnostyka.php` z serwera.
+
+Najczęstsze przyczyny: brak wgranego pliku `.htaccess` (ukryte pliki
+w kliencie FTP!) lub wyłączona obsługa `.htaccess` na hostingu (opcja
+`AllowOverride` - do włączenia w panelu hostingu lub u administratora).

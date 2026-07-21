@@ -16,6 +16,13 @@ if ($path === '/sitemap.xml') {
     return true;
 }
 
+/* test przepisywania adresow -> diagnostyka */
+if ($path === '/test-rewrite') {
+    $_GET['rewrite'] = 'ok';
+    require __DIR__ . '/diagnostyka.php';
+    return true;
+}
+
 /* przekierowania ze starych adresow .html */
 if (preg_match('#^(.*/)index\.html$#', $path, $m)) {
     header('Location: ' . $m[1], true, 301);

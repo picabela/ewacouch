@@ -20,8 +20,29 @@ if (!defined('EW_SITE')) {
 // define('BASE_PATH', '/testowe');
 
 if (!defined('BASE_PATH')) {
-    $scriptName = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : '';
-    define('BASE_PATH', preg_replace('#/((eng|fr)/)?(index|sitemap)\.php$#', '', $scriptName));
+    $basePath = null;
+
+    /* 1) Na podstawie położenia katalogu strony względem katalogu głównego
+       domeny - najpewniejsza metoda, działa też na PHP w trybie CGI. */
+    if (!empty($_SERVER['DOCUMENT_ROOT'])) {
+        $docRoot  = realpath($_SERVER['DOCUMENT_ROOT']);
+        $docRoot  = rtrim(str_replace('\\', '/', $docRoot ? $docRoot : $_SERVER['DOCUMENT_ROOT']), '/');
+        $siteRoot = str_replace('\\', '/', dirname(__DIR__));
+        if ($docRoot !== '' && strpos($siteRoot, $docRoot) === 0) {
+            $basePath = substr($siteRoot, strlen($docRoot));
+        }
+    }
+
+    /* 2) Awaryjnie: ze ścieżki wykonywanego skryptu. */
+    if ($basePath === null) {
+        $scriptName = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : '';
+        $basePath   = preg_replace('#/((eng|fr)/)?(index|sitemap)\.php$#', '', $scriptName);
+        if ($basePath === $scriptName) {
+            $basePath = ''; // nieoczekiwany format -> przyjmij katalog główny
+        }
+    }
+
+    define('BASE_PATH', rtrim($basePath, '/'));
 }
 
 /*
@@ -81,6 +102,7 @@ $languages = array(
             array('/blog/',             'BLOG',               null),
         ),
         'not_found'     => array('Strona nie została znaleziona', 'Strona, której szukasz, nie istnieje lub została przeniesiona.', 'Wróć na stronę główną'),
+        'form_error'    => 'Wystąpił błąd. Spróbuj ponownie lub napisz bezpośrednio na e-mail.',
     ),
     'en' => array(
         'dir'           => 'eng/',
@@ -99,6 +121,7 @@ $languages = array(
             array('kontakt',            'contact',         'contact career coach'),
         ),
         'not_found'     => array('Page not found', 'The page you are looking for does not exist or has been moved.', 'Back to the home page'),
+        'form_error'    => 'An error occurred. Please try again or contact me directly by e-mail.',
     ),
     'fr' => array(
         'dir'           => 'fr/',
@@ -117,6 +140,7 @@ $languages = array(
             array('kontakt',            'Contact',               'contact coach de carrière'),
         ),
         'not_found'     => array('Page introuvable', 'La page que vous recherchez n’existe pas ou a été déplacée.', 'Retour à la page d’accueil'),
+        'form_error'    => 'Une erreur est survenue. Veuillez réessayer ou m’écrire directement par e-mail.',
     ),
 );
 

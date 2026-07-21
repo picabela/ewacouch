@@ -98,19 +98,27 @@ if (!$isHome && empty($page['noindex'])) {
     <style type="text/css" media="screen" charset="utf-8">
 	@import url("<?= e($assetBase) ?>ajax_email/style.css");
 </style>
-    <script type="text/javascript" src="<?= e($assetBase) ?>ajax_email/mootools.js"></script>
     <script type="text/javascript">
-		window.addEvent('domready', function(){
-			$('myForm').addEvent('submit', function(e) {
-
-			new Event(e).stop();
-			var log = $('log_res').empty().addClass('ajax-loading');
-			this.send({
-				update: log,
-				onComplete: function() {
-					log.removeClass('ajax-loading');
-				}
-			});
+		document.addEventListener('DOMContentLoaded', function () {
+			var form = document.getElementById('myForm');
+			if (!form) return;
+			form.addEventListener('submit', function (e) {
+				e.preventDefault();
+				var log = document.getElementById('log_res');
+				var btn = form.querySelector('.submit');
+				log.innerHTML = '';
+				log.className = 'ajax-loading';
+				btn.disabled = true;
+				fetch(form.getAttribute('action'), { method: 'POST', body: new FormData(form) })
+					.then(function (r) { return r.text(); })
+					.then(function (html) {
+						log.innerHTML = html;
+						if (html.indexOf('form-ok') !== -1) form.reset();
+					})
+					.catch(function () {
+						log.innerHTML = '<p class="form-error">' + <?= json_encode($langCfg['form_error'], JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?> + '</p>';
+					})
+					.then(function () { log.className = ''; btn.disabled = false; });
 			});
 		});
 	</script>

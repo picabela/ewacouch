@@ -35,6 +35,9 @@ AddDefaultCharset UTF-8
     # sitemap.xml generowana dynamicznie z rejestru podstron
     RewriteRule ^sitemap\.xml$ sitemap.php [L]
 
+    # test diagnostyczny przepisywania adresow (uzywany przez diagnostyka.php)
+    RewriteRule ^test-rewrite$ diagnostyka.php?rewrite=ok [L,QSA]
+
     # blokada bezposredniego dostepu do plikow wewnetrznych
     # (front controller zwroci strone 404)
     RewriteRule ^(includes|templates)(/|$) index.php [L]
