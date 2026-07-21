@@ -23,7 +23,7 @@ if (!defined('EW_SITE')) {
                 </div>
             </footer>  <!-- .row -->
 <?php if (!empty($langCfg['copyright'])): ?>
-            <div class="row"><p style="text-align:center;margin-top: 10px;color: #999;font-size: 12px;">Copyrights 2017 Ewa Wędrychowska Coach | <?= e($contact['street']) ?>, <?= e($contact['postcode']) ?> <?= e($contact['city']) ?></p></div> <!-- .row -->
+            <div class="row"><p style="text-align:center;margin-top: 10px;color: #999;font-size: 12px;">Copyrights <?= date('Y') ?> Ewa Wędrychowska Coach | <?= e($contact['street']) ?>, <?= e($contact['postcode']) ?> <?= e($contact['city']) ?></p></div> <!-- .row -->
 <?php endif; ?>
         </div> <!-- .container -->
     </div> <!-- .main-body -->

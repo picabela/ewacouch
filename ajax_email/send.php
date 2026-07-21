@@ -32,7 +32,7 @@
 		form_msg(false, 'Wypełnij poprawnie wszystkie pola formularza.');
 	}
 
-	$to      = 'ewawedry111@gmail.com';
+	$to      = 'damian@semanticad.pl'; // TYMCZASOWO na czas testow; docelowo: ewawedry111@gmail.com
 	$subject = '=?UTF-8?B?' . base64_encode('E-mail ze strony www') . '?=';
 
 	$body = 'Imię i nazwisko: ' . $name . "\r\n" .

@@ -38,8 +38,7 @@ Email:  <a href="mailto:<?= e($contact['email']) ?>"><?= e($contact['email']) ?>
                                             <p><label for="cf-message">Message :</label></p>
                                             <textarea class="textarea" id="cf-message" name="message" rows="6" required></textarea>
                                           </div>
-                                          <div class="hp-field" aria-hidden="true">
-                                            <label for="cf-website">Ne pas remplir ce champ :</label>
+                                          <div class="hp-field" style="display:none" aria-hidden="true">
                                             <input type="text" id="cf-website" name="website" tabindex="-1" autocomplete="off">
                                           </div>
                                           <div>
