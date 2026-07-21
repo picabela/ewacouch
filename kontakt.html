@@ -18,20 +18,28 @@
 
 
 
-<script type="text/javascript" src="ajax_email/mootools.js"></script>
-	<script type="text/javascript">
-		window.addEvent('domready', function(){
-			$('myForm').addEvent('submit', function(e) {
-
-			new Event(e).stop();
-			var log = $('log_res').empty().addClass('ajax-loading');
-			this.send({
-				update: log,
-				onComplete: function() {
-					log.removeClass('ajax-loading');
-				}
+<script type="text/javascript">
+		document.addEventListener('DOMContentLoaded', function () {
+			var form = document.getElementById('myForm');
+			if (!form) return;
+			form.addEventListener('submit', function (e) {
+				e.preventDefault();
+				var log = document.getElementById('log_res');
+				var btn = form.querySelector('.submit');
+				log.innerHTML = '';
+				log.className = 'ajax-loading';
+				btn.disabled = true;
+				fetch(form.getAttribute('action'), { method: 'POST', body: new FormData(form) })
+					.then(function (r) { return r.text(); })
+					.then(function (html) {
+						log.innerHTML = html;
+						if (html.indexOf('form-ok') !== -1) form.reset();
+					})
+					.catch(function () {
+						log.innerHTML = '<p class="form-error">Wystąpił błąd. Spróbuj ponownie lub napisz bezpośrednio na e-mail.</p>';
+					})
+					.then(function () { log.className = ''; btn.disabled = false; });
 			});
-			});		
 		});
 	</script>
 	<script>
@@ -114,9 +122,37 @@ ul. Wiedeńska 28<br/>
                                             <p class="tresc-kontakt2"> <span class="duza-niebieska">
                                          Napisz lub zadzwoń i umów się na spotkanie.</span>
                                          </p>
-                                         
-                                    
-                                         
+
+                                      <div id="form_box">
+                                        <form id="myForm" action="ajax_email/send.php" method="post" name="myForm">
+                                          <div>
+                                            <p><label for="cf-name">Imię i nazwisko:</label></p>
+                                            <input class="input" type="text" id="cf-name" name="name" required>
+                                          </div>
+                                          <div>
+                                            <p><label for="cf-email">Adres e-mail:</label></p>
+                                            <input class="input" type="email" id="cf-email" name="e_mail" required>
+                                          </div>
+                                          <div>
+                                            <p><label for="cf-phone">Telefon (opcjonalnie):</label></p>
+                                            <input class="input" type="tel" id="cf-phone" name="phone">
+                                          </div>
+                                          <div>
+                                            <p><label for="cf-message">Wiadomość:</label></p>
+                                            <textarea class="textarea" id="cf-message" name="message" rows="6" required></textarea>
+                                          </div>
+                                          <div class="hp-field" aria-hidden="true">
+                                            <label for="cf-website">Nie wypełniaj tego pola:</label>
+                                            <input type="text" id="cf-website" name="website" tabindex="-1" autocomplete="off">
+                                          </div>
+                                          <div>
+                                            <input class="submit" type="submit" value="Wyślij wiadomość">
+                                          </div>
+                                        </form>
+                                        <div id="log"><div id="log_res"></div></div>
+                                      </div>
+
+
                                       <div class="zapr">
                                     
 

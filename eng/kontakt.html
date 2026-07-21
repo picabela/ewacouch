@@ -17,20 +17,28 @@
 
 
 
-<script type="text/javascript" src="ajax_email/mootools.js"></script>
-	<script type="text/javascript">
-		window.addEvent('domready', function(){
-			$('myForm').addEvent('submit', function(e) {
-
-			new Event(e).stop();
-			var log = $('log_res').empty().addClass('ajax-loading');
-			this.send({
-				update: log,
-				onComplete: function() {
-					log.removeClass('ajax-loading');
-				}
+<script type="text/javascript">
+		document.addEventListener('DOMContentLoaded', function () {
+			var form = document.getElementById('myForm');
+			if (!form) return;
+			form.addEventListener('submit', function (e) {
+				e.preventDefault();
+				var log = document.getElementById('log_res');
+				var btn = form.querySelector('.submit');
+				log.innerHTML = '';
+				log.className = 'ajax-loading';
+				btn.disabled = true;
+				fetch(form.getAttribute('action'), { method: 'POST', body: new FormData(form) })
+					.then(function (r) { return r.text(); })
+					.then(function (html) {
+						log.innerHTML = html;
+						if (html.indexOf('form-ok') !== -1) form.reset();
+					})
+					.catch(function () {
+						log.innerHTML = '<p class="form-error">An error occurred. Please try again or contact me directly by e-mail.</p>';
+					})
+					.then(function () { log.className = ''; btn.disabled = false; });
 			});
-			});		
 		});
 	</script>
 	<script>
@@ -108,7 +116,36 @@ Email:  <a href="mailto:ewawedry111@gmail.com">ewawedry111@gmail.com</a>
                                          <p class="tresc-kontakt2"> <span class="duza-niebieska">
                                         <strong> Please feel free to send me an email or call me in order to make  an appointment or ask any questions.</strong></span>
                                          </p>
-                                         
+
+                                      <div id="form_box">
+                                        <form id="myForm" action="ajax_email/send.php" method="post" name="myForm">
+                                          <div>
+                                            <p><label for="cf-name">Full name:</label></p>
+                                            <input class="input" type="text" id="cf-name" name="name" required>
+                                          </div>
+                                          <div>
+                                            <p><label for="cf-email">E-mail address:</label></p>
+                                            <input class="input" type="email" id="cf-email" name="e_mail" required>
+                                          </div>
+                                          <div>
+                                            <p><label for="cf-phone">Phone (optional):</label></p>
+                                            <input class="input" type="tel" id="cf-phone" name="phone">
+                                          </div>
+                                          <div>
+                                            <p><label for="cf-message">Message:</label></p>
+                                            <textarea class="textarea" id="cf-message" name="message" rows="6" required></textarea>
+                                          </div>
+                                          <div class="hp-field" aria-hidden="true">
+                                            <label for="cf-website">Leave this field empty:</label>
+                                            <input type="text" id="cf-website" name="website" tabindex="-1" autocomplete="off">
+                                          </div>
+                                          <div>
+                                            <input class="submit" type="submit" value="Send message">
+                                          </div>
+                                        </form>
+                                        <div id="log"><div id="log_res"></div></div>
+                                      </div>
+
                                          </div>
                                          
    
