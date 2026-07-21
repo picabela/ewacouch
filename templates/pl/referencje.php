@@ -3,7 +3,7 @@
 
                                         <div class="desc3">
 
-<p class="tytul">referencje</p>
+<h1 class="tytul">referencje</h1>
 
 
                                       <p class="tresc">

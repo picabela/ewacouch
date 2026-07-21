@@ -3,7 +3,7 @@
 
                                         <div class="desc2">
   <div class="odnosnik"> <a class="kont" href="<?= e(page_url($lang, 'kontakt')) ?>"> contactez-moi ici <span class="pom">&#8658;</span></a> </div>
-<p class="tytul">Coaching de vie</p>
+<h1 class="tytul">Coaching de vie</h1>
 <p class="tresc"> <strong>Le coaching de vie est pour vous si :</strong>
 <ul>
 <li>Vous pensez à changer votre vie mais vous ne savez pas par où commencer

@@ -80,6 +80,8 @@ if (!$isHome && empty($page['noindex'])) {
     <link rel="stylesheet" type="text/css" href="<?= e($assetBase) ?>css/style.css">
     <meta name="description" content="<?= e($page['description']) ?>">
     <title><?= e($page['title']) ?></title>
+    <link rel="icon" type="image/png" href="<?= e(BASE_PATH) ?>/favicon.png">
+    <link rel="shortcut icon" type="image/png" href="<?= e(BASE_PATH) ?>/favicon.png">
 <?php if (!empty($page['noindex'])): ?>
     <meta name="robots" content="noindex, nofollow">
 <?php else: ?>
@@ -152,9 +154,15 @@ if (!$isHome && empty($page['noindex'])) {
                                     </a>
                                 </div>
 
-                              <h3>  Ewa Wędrychowska</h3>
+<?php if ($isHome): ?>
+                              <h1 class="brand-name">  Ewa Wędrychowska</h1>
 
-                               <h2> <?= $langCfg['h2'] ?></h2>
+                               <p class="brand-tagline"> <?= $langCfg['h2'] ?></p>
+<?php else: ?>
+                              <p class="brand-name">  Ewa Wędrychowska</p>
+
+                               <p class="brand-tagline"> <?= $langCfg['h2'] ?></p>
+<?php endif; ?>
 
                                     <nav id="nav">
       <ul>

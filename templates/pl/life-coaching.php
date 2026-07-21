@@ -3,7 +3,7 @@
 
                                               <div class="desc2">
                                         <div class="odnosnik"> <a class="kont" href="<?= e(page_url($lang, 'kontakt')) ?>"> umów się na sesję wstępną   <br>bezpośrednią lub on-line  <span class="pom">&#8658;</span></a> </div>
-                                        <p class="tytul">life coaching</p>
+                                        <h1 class="tytul">life coaching</h1>
                                       <p class="tresc"> <strong>Life coaching jest dla Ciebie jeśli:</strong>
 <ul>
 <li>Myślisz o zmianie w swoim życiu, ale nie wiesz, od czego zacząć

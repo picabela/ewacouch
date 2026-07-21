@@ -3,7 +3,7 @@
 
                                              <div class="desc2">
                      <div class="odnosnik"> <a class="kont" href="<?= e(page_url($lang, 'kontakt')) ?>"> umów się na sesję wstępną   <br>bezpośrednią lub on-line  <span class="pom">&#8658;</span></a> </div>
-<p class="tytul">doradztwo zawodowe</p>
+<h1 class="tytul">doradztwo zawodowe</h1>
                                       <p class="tresc"> <strong>Doradztwo Zawodowe jest dla Ciebie jeśli:</strong>
 <ul>
 <li>Poszukujesz pracy

@@ -6,7 +6,7 @@
 
 
 
-<p class="tytul">Conseil professionnel</p>
+<h1 class="tytul">Conseil professionnel</h1>
  <p class="tresc"> <strong>Le Conseil professionnel vous est destiné si :
 </strong>
 <ul>

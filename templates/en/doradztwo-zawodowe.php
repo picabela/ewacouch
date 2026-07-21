@@ -3,7 +3,7 @@
 
  <div class="desc2">
   <div class="odnosnik"> <a class="kont" href="<?= e(page_url($lang, 'kontakt')) ?>"> please contact me here <span class="pom">&#8658;</span></a> </div>
-<p class="tytul">Career Advisory</p>
+<h1 class="tytul">Career Advisory</h1>
                                       <p class="tresc"> <strong>Career advisory is for you if you:
 </strong>
 <ul>

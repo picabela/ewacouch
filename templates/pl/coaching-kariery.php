@@ -3,7 +3,7 @@
 
                                        <div class="desc2">
                   <div class="odnosnik"> <a class="kont" href="<?= e(page_url($lang, 'kontakt')) ?>"> umów się na sesję wstępną   <br>bezpośrednią lub on-line  <span class="pom">&#8658;</span></a> </div>
-<p class="tytul">coaching kariery</p>
+<h1 class="tytul">coaching kariery</h1>
                                       <p class="tresc"> <strong>Coaching kariery jest dla Ciebie jeśli:</strong>
 <ul>
 <li>Poszukujesz własnej wizji kariery zawodowej, opartej na swoich marzeniach i wartościach

@@ -3,7 +3,7 @@
 
                                               <div class="desc2">
                                         <div class="odnosnik"> <a class="kont" href="<?= e(page_url($lang, 'kontakt')) ?>"> umów się na sesję wstępną   <br>bezpośrednią lub on-line  <span class="pom">&#8658;</span></a> </div>
-                                        <h1><p class="tytul">executive coaching</p></h1>
+                                        <h1 class="tytul">executive coaching</h1>
                                       <p class="tresc"> <strong>Executive coaching jest dla Ciebie jeśli:</strong>
 <ul>
 <li>Chcesz być bardziej skuteczny/a w motywowaniu Twoich pracowników i budowaniu ich zaangażowania

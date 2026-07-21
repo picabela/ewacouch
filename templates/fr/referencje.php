@@ -2,7 +2,7 @@
                                 <div class="banner-podstrona">
 
                                         <div class="desc3">
-<p class="tytul">Références</p>
+<h1 class="tytul">Références</h1>
 
 <p class="tresc-srodek">
 

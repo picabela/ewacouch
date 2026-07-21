@@ -2,7 +2,7 @@
                                 <div class="banner-podstrona">
 
                                         <div class="desc2">
-<p class="tytul">kontakt</p>
+<h1 class="tytul">kontakt</h1>
 
 
 

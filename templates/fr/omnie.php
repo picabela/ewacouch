@@ -5,7 +5,7 @@
   <div class="odnosnik"> <a class="kont" href="<?= e(page_url($lang, 'kontakt')) ?>"> contactez-moi ici <span class="pom">&#8658;</span></a> </div>
 
 
-<p class="tytul-omnie">Je me présente </p>
+<h1 class="tytul-omnie">Je me présente </h1>
                                       <p class="tresc-omnie">
 Mon expérience accumulée durant plusieurs années de coopération avec d’autres personnes et ma connaissance du monde des affaires acquise au sein d’un groupe multinational me permettent à présent de proposer un soutien compétent à tous ceux qui en ont besoin – organismes ou individus.
 Je suis coach certifié (PCC ICF Erickson College International, Vancouver) mais aussi conseillère professionnelle diplômée (Ecole supérieure européenne, Cracovie). J’ai terminé des études post-universitaires en gestion des ressources humaines à l’Université des sciences et technologies AGH de Cracovie et la philologie hispanique à l’Université Jagellonne.

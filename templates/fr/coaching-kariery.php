@@ -3,7 +3,7 @@
 
                                         <div class="desc2">
   <div class="odnosnik"> <a class="kont" href="<?= e(page_url($lang, 'kontakt')) ?>"> contactez-moi ici <span class="pom">&#8658;</span></a> </div>
-<p class="tytul">Coaching de carrière</p>
+<h1 class="tytul">Coaching de carrière</h1>
                                       <p class="tresc"> <strong>Le Coaching de carrière est pour vous si:</strong>
 <ul>
 <li>Vous recherchez votre propre vision de votre carrière professionnelle, s’articulant sur vos rêves et valeurs

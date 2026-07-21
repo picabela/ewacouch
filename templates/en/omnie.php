@@ -6,7 +6,7 @@
   <div class="odnosnik"> <a class="kont" href="<?= e(page_url($lang, 'kontakt')) ?>"> please contact me here <span class="pom">&#8658;</span></a> </div>
 
 
-<p class="tytul-omnie">About me</p>
+<h1 class="tytul-omnie">About me</h1>
                                       <p class="tresc-omnie">
 As a certified coach (PCC ICF Erickson College International, Vancouver) and a licensed career advisor (Wyższa Szkoła Europejska (Tischner European University), Krakow), I offer professional support to organizations and private individuals, grounded on the experience I gained during the many years of my work with people, and the sound understanding of business I acquired working in a global corporation. I also hold a diploma of post-graduate HR management college at the AGH (University of Science and Technology), as well as an Iberian Studies degree I received  at the Jagiellonian University.
 </p>

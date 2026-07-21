@@ -4,7 +4,7 @@
                                         <div class="desc2">
 
                                      <div class="odnosnik"> <a class="kont" href="<?= e(page_url($lang, 'kontakt')) ?>"> umów się na sesję wstępną   <br>bezpośrednią lub on-line  <span class="pom">&#8658;</span></a> </div>
-<p class="tytul">Polityka Plików Cookies</p>
+<h1 class="tytul">Polityka Plików Cookies</h1>
 
 <p class="tresc">
 

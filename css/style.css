@@ -1707,3 +1707,32 @@ h2 {
 
 }
  
+/* --- SEO: struktura naglowkow (H1) bez zmiany wygladu --- */
+/* Marka w panelu bocznym: te same wartosci co wczesniejsze h3/h2 */
+.brand-name {
+	font-family: 'Lora', times;
+	color: #2e6b88;
+	font-size: 25px;
+	margin: 0;
+	font-weight: 500;
+	text-align: center;
+}
+.brand-tagline {
+	font-family: 'Lora', times;
+	color: #fff;
+	font-size: 22px;
+	line-height: 1.4em;
+	font-weight: 500;
+	margin: 10px 0 0 85px;
+}
+@media (max-width: 991px) {
+	.brand-tagline { margin: 10px 0 0 70px; }
+}
+@media (max-width: 250px) {
+	.brand-tagline { margin: 10px 0 0 10px; }
+}
+/* Tytul podstrony jako H1 - wyglad identyczny jak wczesniejszy akapit .tytul */
+h1.tytul, h1.tytul-omnie {
+	font-weight: normal;
+	line-height: normal;
+}

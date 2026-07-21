@@ -3,7 +3,7 @@
 
                                         <div class="desc2">
                                    <div class="odnosnik"> <a class="kont" href="<?= e(page_url($lang, 'kontakt')) ?>"> umów się na sesję wstępną   <br>bezpośrednią lub on-line  <span class="pom">&#8658;</span></a> </div>
-<p class="tytul-omnie">o mnie</p>
+<h1 class="tytul-omnie">o mnie</h1>
                                       <p class="tresc-omnie"> Moje doświadczenia, wynikające z wieloletniej pracy z ludźmi oraz znajomość świata biznesu, nabyta w międzynarodowej korporacji, pozwalają mi dzisiaj profesjonalnie wspierać tych, którzy tego potrzebują - organizacje jak i osoby prywatne.</p>
  <p class="tresc-omnie">
 Jestem certyfikowanym coachem (PCC ICF Erickson College International, Vancouver), a także dyplomowanym doradcą zawodowym (Wyższa Szkoła Europejska, Krakow). Ukończyłam studia podyplomowe z zakresu zarządzania zasobami ludzkimi na Akademii Górniczo-Hutniczej oraz iberystykę na Uniwersytecie Jagiellońskim.
