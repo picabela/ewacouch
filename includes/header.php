@@ -76,8 +76,8 @@ if (!$isHome && empty($page['noindex'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Lora&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="<?= e($assetBase) ?>css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="<?= e($assetBase) ?>css/style.css">
+    <link rel="stylesheet" type="text/css" href="<?= e($assetBase) ?>css/bootstrap.css?v=<?= ASSET_VERSION ?>">
+    <link rel="stylesheet" type="text/css" href="<?= e($assetBase) ?>css/style.css?v=<?= ASSET_VERSION ?>">
     <meta name="description" content="<?= e($page['description']) ?>">
     <title><?= e($page['title']) ?></title>
     <link rel="icon" type="image/png" href="<?= e(BASE_PATH) ?>/favicon.png">
@@ -94,11 +94,11 @@ if (!$isHome && empty($page['noindex'])) {
     <link rel="alternate" hreflang="x-default" href="<?= e(absolute_url('pl', $alternates['pl'])) ?>">
 <?php endif; ?>
 <?php if (!empty($page['cookies'])): ?>
-    <script type="text/javascript" src="<?= e(BASE_PATH) ?>/whcookies.js"></script>
+    <script type="text/javascript" src="<?= e(BASE_PATH) ?>/whcookies.js?v=<?= ASSET_VERSION ?>"></script>
 <?php endif; ?>
 <?php if (!empty($page['contact_form'])): ?>
     <style type="text/css" media="screen" charset="utf-8">
-	@import url("<?= e($assetBase) ?>ajax_email/style.css");
+	@import url("<?= e($assetBase) ?>ajax_email/style.css?v=<?= ASSET_VERSION ?>");
 </style>
     <script type="text/javascript">
 		document.addEventListener('DOMContentLoaded', function () {

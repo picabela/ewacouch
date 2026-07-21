@@ -61,6 +61,13 @@ if (!defined('BASE_URL')) {
 /* Identyfikator Google Analytics */
 define('GA_ID', 'UA-85549321-1');
 
+/*
+ * Wersja zasobów statycznych (CSS/JS) - dopisywana do adresów jako ?v=...
+ * Wymusza na przeglądarkach pobranie świeżych plików zamiast starych z pamięci
+ * podręcznej. Zwiększ tę liczbę po KAŻDEJ zmianie w plikach CSS lub JS.
+ */
+define('ASSET_VERSION', '2');
+
 /* Dane kontaktowe / firmowe (kontakt, stopka, dane strukturalne) */
 $contact = array(
     'name'     => 'Ewa Wędrychowska',
