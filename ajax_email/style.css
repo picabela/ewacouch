@@ -99,3 +99,72 @@ width: 300px;
    width:80px;
 }*/
 
+
+/* ------- style nowego formularza kontaktowego ------- */
+
+#form_box .input,
+#form_box .textarea {
+	box-sizing: border-box;
+	max-width: 100%;
+	padding: 6px 8px;
+	font-family: 'Source Sans Pro', Arial, sans-serif;
+}
+
+#form_box .submit {
+	cursor: pointer;
+	margin-top: 6px;
+	padding: 8px 18px;
+}
+
+#form_box .submit[disabled] {
+	opacity: 0.6;
+	cursor: default;
+}
+
+/* pole-pulapka na boty - ukryte dla ludzi */
+#form_box .hp-field {
+	position: absolute !important;
+	left: -9999px !important;
+	top: -9999px !important;
+	height: 0 !important;
+	overflow: hidden !important;
+}
+
+/* komunikaty po wyslaniu */
+#log_res p.form-ok {
+	color: #2e7d32;
+	border: 1px solid #2e7d32;
+	background: #f0f8f0;
+	padding: 8px 10px;
+	margin: 5px 0;
+}
+
+#log_res p.form-error {
+	color: #c62828;
+	border: 1px solid #c62828;
+	background: #fdf3f3;
+	padding: 8px 10px;
+	margin: 5px 0;
+}
+
+/* animacja ladowania bez zewnetrznego obrazka */
+#log_res.ajax-loading {
+	background: none;
+	padding: 10px 0;
+}
+
+#log_res.ajax-loading::after {
+	content: "";
+	display: block;
+	width: 22px;
+	height: 22px;
+	margin: 0 auto;
+	border: 3px solid #6fa4ca;
+	border-top-color: transparent;
+	border-radius: 50%;
+	animation: cf-spin 0.8s linear infinite;
+}
+
+@keyframes cf-spin {
+	to { transform: rotate(360deg); }
+}
