@@ -1,68 +1,55 @@
 <?php
 
-	error_reporting(E_NOTICE);
+	header('Content-Type: text/html; charset=utf-8');
 
-
-
-	function valid_email($str)
-
+	function form_msg($ok, $msg)
 	{
-
-		return ( ! preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str)) ? FALSE : TRUE;
-
+		echo '<p class="' . ($ok ? 'form-ok' : 'form-error') . '">' . $msg . '</p>';
+		exit;
 	}
 
-
-
-	if($_POST['name']!='' && $_POST['e_mail']!='' && $_POST['message']!='' && valid_email($_POST['e_mail'])==TRUE)
-
+	function clean_line($str)
 	{
-
-		$to = 'ewawedry111@gmail.com';
-
-		$headers = "E-mail ze strony www";
-
-				//'X-Mailer: Wersja PHP/' . phpversion();
-
-		$subject = "E-mail ze strony www";
-
-		$message = 'Imie: '.$_POST['name'].''. "\r\n" . 
-		           
-		
-				   'E-mail: '.$_POST['e_mail'].''. "\r\n" . 
-
-				   'tresc zapytania: '.$_POST['message'];
-					
- 			   //    'Napisano: '. htmlspecialchars($_POST['message']);
-
-		
-
-  	 $message= iconv('utf-8', 'iso-8859-2', $message); 
-
-		
-
-		
-
-		if(mail($to, $subject, $message, $headers))
-
-		{
-
-			echo '<p>Wiadomosc zostala wyslana</p>';
-
-		}
-
-		else {
-
-			echo "<p>Wiadomosc nie zostala wyslana</p>";
-
-		}
-
+		// usuwa znaki nowej linii - ochrona przed wstrzykiwaniem naglowkow e-mail
+		return trim(str_replace(array("\r", "\n", "%0a", "%0d"), '', $str));
 	}
 
-	else {
-
-		echo '<p>Wypelnij poprawnie wszystkie pola formularza.</p>';
-
+	if (strtoupper($_SERVER['REQUEST_METHOD']) !== 'POST') {
+		form_msg(false, 'Nieprawidłowe żądanie.');
 	}
 
-?> 
+	// pole-pulapka na boty (honeypot) - czlowiek go nie widzi i nie wypelnia
+	if (!empty($_POST['website'])) {
+		form_msg(true, 'Dziękuję! Wiadomość została wysłana.');
+	}
+
+	$name    = isset($_POST['name'])    ? clean_line($_POST['name'])   : '';
+	$e_mail  = isset($_POST['e_mail'])  ? clean_line($_POST['e_mail']) : '';
+	$phone   = isset($_POST['phone'])   ? clean_line($_POST['phone'])  : '';
+	$message = isset($_POST['message']) ? trim($_POST['message'])      : '';
+
+	if ($name === '' || $e_mail === '' || $message === '' || !filter_var($e_mail, FILTER_VALIDATE_EMAIL)) {
+		form_msg(false, 'Wypełnij poprawnie wszystkie pola formularza.');
+	}
+
+	$to      = 'ewawedry111@gmail.com';
+	$subject = '=?UTF-8?B?' . base64_encode('E-mail ze strony www') . '?=';
+
+	$body = 'Imię i nazwisko: ' . $name . "\r\n" .
+	        'E-mail: ' . $e_mail . "\r\n" .
+	        ($phone !== '' ? 'Telefon: ' . $phone . "\r\n" : '') .
+	        "\r\n" .
+	        'Treść zapytania:' . "\r\n" . $message;
+
+	$domain  = isset($_SERVER['SERVER_NAME']) ? preg_replace('/^www\./', '', $_SERVER['SERVER_NAME']) : 'localhost';
+	$headers = 'From: formularz@' . $domain . "\r\n" .
+	           'Reply-To: ' . $e_mail . "\r\n" .
+	           'MIME-Version: 1.0' . "\r\n" .
+	           'Content-Type: text/plain; charset=UTF-8' . "\r\n" .
+	           'Content-Transfer-Encoding: 8bit';
+
+	if (mail($to, $subject, $body, $headers)) {
+		form_msg(true, 'Dziękuję! Wiadomość została wysłana. Odpowiem najszybciej jak to możliwe.');
+	} else {
+		form_msg(false, 'Wiadomość nie została wysłana. Spróbuj ponownie lub napisz bezpośrednio na e-mail.');
+	}
