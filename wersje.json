@@ -4,7 +4,7 @@
     "wersje": [
         {
             "nr": "1.0",
-            "commit": "",
+            "commit": "5f247b7",
             "data": "2026-07-22",
             "opis": "Menedżer plików chronionych i numery wersji w panelu update.php"
         },
