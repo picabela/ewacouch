@@ -66,7 +66,7 @@ define('GA_ID', 'UA-85549321-1');
  * Wymusza na przeglądarkach pobranie świeżych plików zamiast starych z pamięci
  * podręcznej. Zwiększ tę liczbę po KAŻDEJ zmianie w plikach CSS lub JS.
  */
-define('ASSET_VERSION', '2');
+define('ASSET_VERSION', '3');
 
 /* Dane kontaktowe / firmowe (kontakt, stopka, dane strukturalne) */
 $contact = array(
@@ -106,6 +106,7 @@ $languages = array(
             array('extended-disc',      'Extended Disc',      'Extended Disc'),
             array('referencje',         'referencje',         'coaching Kraków'),
             array('kontakt',            'kontakt',            'lepsza jakość życia Kraków'),
+            array('faq',                'FAQ',                'awans na lidera, rozwój menedżera'),
             array('/blog/',             'BLOG',               null),
         ),
         'not_found'     => array('Strona nie została znaleziona', 'Strona, której szukasz, nie istnieje lub została przeniesiona.', 'Wróć na stronę główną'),
@@ -212,6 +213,11 @@ $pages = array(
             'description'  => 'Oferuję swoje usługi na terenie Krakowa, Małopolski, ale też na terenie całej Polski i za granicą. Zapraszam do kontaktu.',
             'contact_form' => true,
             'alt'          => array('en' => 'kontakt', 'fr' => 'kontakt'),
+        ),
+        'faq' => array(
+            'title'       => 'FAQ - awans na lidera, rozwój menedżera - Ewa Wędrychowska',
+            'description' => 'Najczęściej zadawane pytania o odnalezienie się w roli lidera po awansie z pozycji eksperta: pewność siebie, delegowanie, różnice między ekspertem a liderem, rozwój menedżera.',
+            'alt'         => array('en' => null, 'fr' => null),
         ),
         'pliki' => array(
             'title'       => 'Polityka Plików Cookies - Ewa Wędrychowska',

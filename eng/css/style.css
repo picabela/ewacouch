@@ -1690,3 +1690,16 @@ h1.tytul, h1.tytul-omnie {
 	font-weight: normal;
 	line-height: normal;
 }
+/* FAQ - pytania jako nagłówki; klasa nadpisuje globalne reguły elementu h2 */
+.faq-pytanie {
+	font-family: 'Lora', Times;
+	color: #2e6b88;
+	font-size: 19px;
+	font-weight: 600;
+	line-height: 1.4;
+	text-align: left;
+	margin: 26px 70px 6px 60px;
+}
+@media (max-width: 991px) {
+	.faq-pytanie { margin-right: 30px; }
+}
