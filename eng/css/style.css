@@ -1690,16 +1690,28 @@ h1.tytul, h1.tytul-omnie {
 	font-weight: normal;
 	line-height: normal;
 }
-/* FAQ - pytania jako nagłówki; klasa nadpisuje globalne reguły elementu h2 */
+/* FAQ - sekcje (H2) i pytania (H3); klasy nadpisują globalne reguły h2/h3 */
+.faq-sekcja {
+	font-family: 'Lora', Times;
+	color: #6fa4ca;
+	font-size: 24px;
+	font-weight: 700;
+	line-height: 1.3;
+	text-align: left;
+	margin: 42px 70px 10px 60px;
+	padding-bottom: 8px;
+	border-bottom: 2px solid #d6e4ee;
+}
+.faq-sekcja:first-of-type { margin-top: 22px; }
 .faq-pytanie {
 	font-family: 'Lora', Times;
 	color: #2e6b88;
-	font-size: 19px;
+	font-size: 18px;
 	font-weight: 600;
 	line-height: 1.4;
 	text-align: left;
-	margin: 26px 70px 6px 60px;
+	margin: 22px 70px 6px 60px;
 }
 @media (max-width: 991px) {
-	.faq-pytanie { margin-right: 30px; }
+	.faq-sekcja, .faq-pytanie { margin-right: 30px; }
 }
