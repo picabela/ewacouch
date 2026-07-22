@@ -127,6 +127,7 @@ $languages = array(
             array('life-coaching',      'life coaching',   'life coaching Krakow'),
             array('referencje',         'references',      'coaching references'),
             array('kontakt',            'contact',         'contact career coach'),
+            array('faq',                'FAQ',             'career and leadership coaching FAQ'),
         ),
         'not_found'     => array('Page not found', 'The page you are looking for does not exist or has been moved.', 'Back to the home page'),
         'form_error'    => 'An error occurred. Please try again or contact me directly by e-mail.',
@@ -146,6 +147,7 @@ $languages = array(
             array('life-coaching',      'Coaching de vie',       'coaching de vie Cracovie'),
             array('referencje',         'Références',            'références coaching'),
             array('kontakt',            'Contact',               'contact coach de carrière'),
+            array('faq',                'FAQ',                   'FAQ coaching de carrière et de vie'),
         ),
         'not_found'     => array('Page introuvable', 'La page que vous recherchez n’existe pas ou a été déplacée.', 'Retour à la page d’accueil'),
         'form_error'    => 'Une erreur est survenue. Veuillez réessayer ou m’écrire directement par e-mail.',
@@ -153,8 +155,12 @@ $languages = array(
 );
 
 /*
- * Rejestr podstron.
+ * Rejestr podstron. Klucz tablicy = wewnętrzna nazwa podstrony (i nazwa pliku
+ * szablonu), np. 'omnie'. Pole 'slug' pozwala nadać jej inny, przetłumaczony
+ * segment adresu URL (np. 'about-me'); router mapuje URL -> klucz, a stare
+ * adresy (po kluczu) przekierowuje 301 na wersję ze 'slug'.
  *  title / description - znaczniki SEO
+ *  slug          - segment adresu URL (domyślnie = klucz podstrony)
  *  home          - strona główna (inny układ banera i menu w <aside>)
  *  ga            - czy dołączyć Google Analytics
  *  cookies       - czy dołączyć skrypt paska cookies (whcookies.js)
@@ -217,7 +223,7 @@ $pages = array(
         'faq' => array(
             'title'       => 'FAQ - awans na lidera, rozwój menedżera - Ewa Wędrychowska',
             'description' => 'Najczęściej zadawane pytania o odnalezienie się w roli lidera po awansie z pozycji eksperta: pewność siebie, delegowanie, różnice między ekspertem a liderem, rozwój menedżera.',
-            'alt'         => array('en' => null, 'fr' => null),
+            'alt'         => array('en' => 'faq', 'fr' => 'faq'),
         ),
         'pliki' => array(
             'title'       => 'Polityka Plików Cookies - Ewa Wędrychowska',
@@ -234,35 +240,47 @@ $pages = array(
             'alt'         => array('pl' => 'index', 'fr' => 'index'),
         ),
         'omnie' => array(
+            'slug'        => 'about-me',
             'title'       => 'About me - Ewa Wędrychowska',
             'description' => 'Ewa Wędrychowska, Coach ICF Erickson College and licensed career advisor.',
             'alt'         => array('pl' => 'omnie', 'fr' => 'omnie'),
         ),
         'coaching-kariery' => array(
+            'slug'        => 'career-coaching',
             'title'       => 'Career Coach, Career Coaching - Ewa Wędrychowska',
             'description' => 'Career Coaching - Seek your own vision for professional career, based on your dreams and values.',
             'alt'         => array('pl' => 'coaching-kariery', 'fr' => 'coaching-kariery'),
         ),
         'doradztwo-zawodowe' => array(
+            'slug'        => 'career-advisory',
             'title'       => 'Career Advisory - Ewa Wędrychowska',
             'description' => 'Are you looking for a job? Want to change your job or qualifications? Career Advisory is for you.',
             'alt'         => array('pl' => 'doradztwo-zawodowe', 'fr' => 'doradztwo-zawodowe'),
         ),
         'life-coaching' => array(
+            'slug'        => 'life-coaching',
             'title'       => 'Life Coaching, Live in harmony with yourself - Ewa Wędrychowska',
             'description' => 'Better identify the goals that suit you, gain more self-confidence, use your skills in a conscious manner - Life Coaching.',
             'alt'         => array('pl' => 'life-coaching', 'fr' => 'life-coaching'),
         ),
         'referencje' => array(
+            'slug'        => 'references',
             'title'       => 'References - Ewa Wędrychowska',
             'description' => 'My references - Ewa Wędrychowska, career coach.',
             'alt'         => array('pl' => 'referencje', 'fr' => 'referencje'),
         ),
         'kontakt' => array(
+            'slug'         => 'contact',
             'title'        => 'Contact - Ewa Wędrychowska',
             'description'  => 'Please feel free to send me an email or call me in order to make an appointment or ask any questions.',
             'contact_form' => true,
             'alt'          => array('pl' => 'kontakt', 'fr' => 'kontakt'),
+        ),
+        'faq' => array(
+            'slug'        => 'faq',
+            'title'       => 'FAQ - career and leadership coaching - Ewa Wędrychowska',
+            'description' => 'Frequently asked questions about the coaching offer, sessions, working method and contact: career coaching, executive coaching, life coaching and Extended Disc.',
+            'alt'         => array('pl' => 'faq', 'fr' => 'faq'),
         ),
     ),
     'fr' => array(
@@ -273,35 +291,47 @@ $pages = array(
             'alt'         => array('pl' => 'index', 'en' => 'index'),
         ),
         'omnie' => array(
+            'slug'        => 'a-propos',
             'title'       => 'Je me présente - Ewa Wędrychowska',
             'description' => 'Ewa Wędrychowska, coach ICF Erickson College et conseillère professionnelle diplômée.',
             'alt'         => array('pl' => 'omnie', 'en' => 'omnie'),
         ),
         'coaching-kariery' => array(
+            'slug'        => 'coaching-de-carriere',
             'title'       => 'Coaching de carrière - Ewa Wędrychowska',
             'description' => 'Coaching de carrière - recherchez votre propre vision de votre carrière professionnelle, fondée sur vos rêves et vos valeurs.',
             'alt'         => array('pl' => 'coaching-kariery', 'en' => 'coaching-kariery'),
         ),
         'doradztwo-zawodowe' => array(
+            'slug'        => 'conseil-professionnel',
             'title'       => 'Conseil professionnel - Ewa Wędrychowska',
             'description' => 'Vous recherchez un emploi ? Vous voulez changer d’emploi ou de qualifications ? Le conseil professionnel est pour vous.',
             'alt'         => array('pl' => 'doradztwo-zawodowe', 'en' => 'doradztwo-zawodowe'),
         ),
         'life-coaching' => array(
+            'slug'        => 'coaching-de-vie',
             'title'       => 'Coaching de vie, Vivez en harmonie avec vous-même - Ewa Wędrychowska',
             'description' => 'Identifiez mieux vos objectifs, gagnez en confiance en vous, utilisez consciemment vos compétences - coaching de vie.',
             'alt'         => array('pl' => 'life-coaching', 'en' => 'life-coaching'),
         ),
         'referencje' => array(
+            'slug'        => 'references',
             'title'       => 'Références - Ewa Wędrychowska',
             'description' => 'Mes références - Ewa Wędrychowska, coach de carrière.',
             'alt'         => array('pl' => 'referencje', 'en' => 'referencje'),
         ),
         'kontakt' => array(
+            'slug'         => 'contact',
             'title'        => 'Contact - Ewa Wędrychowska',
             'description'  => 'N’hésitez pas à m’écrire ou à m’appeler pour prendre rendez-vous ou poser vos questions.',
             'contact_form' => true,
             'alt'          => array('pl' => 'kontakt', 'en' => 'kontakt'),
+        ),
+        'faq' => array(
+            'slug'        => 'faq',
+            'title'       => 'FAQ - coaching de carrière et de vie - Ewa Wędrychowska',
+            'description' => 'Questions fréquentes sur l’offre de coaching, les séances, la méthode de travail et le contact : coaching de carrière, coaching exécutif, coaching de vie et Extended Disc.',
+            'alt'         => array('pl' => 'faq', 'en' => 'faq'),
         ),
     ),
 );
@@ -325,12 +355,42 @@ function e($text)
 }
 
 /** Przyjazny adres URL podstrony, np. page_url('en', 'omnie') => /eng/omnie */
-function page_url($lang, $slug)
+/**
+ * Segment adresu URL dla podstrony w danym języku. Wewnętrznie strona ma
+ * stały klucz (np. 'omnie'), ale w URL może mieć przetłumaczony segment
+ * (np. 'about-me'), jeśli w rejestrze podano pole 'slug'. Domyślnie = klucz.
+ */
+function page_slug($lang, $key)
+{
+    global $pages;
+    if (isset($pages[$lang][$key]['slug'])) {
+        return $pages[$lang][$key]['slug'];
+    }
+    return $key;
+}
+
+/** Odwrotne mapowanie: segment URL danego języka -> wewnętrzny klucz podstrony. */
+function slug_to_key($lang, $slug)
+{
+    global $pages;
+    if (!isset($pages[$lang])) {
+        return null;
+    }
+    foreach ($pages[$lang] as $key => $p) {
+        $s = isset($p['slug']) ? $p['slug'] : $key;
+        if ($s === $slug) {
+            return $key;
+        }
+    }
+    return null;
+}
+
+function page_url($lang, $key)
 {
     global $languages;
     $url = BASE_PATH . '/' . $languages[$lang]['dir'];
-    if ($slug !== 'index') {
-        $url .= $slug;
+    if ($key !== 'index') {
+        $url .= page_slug($lang, $key);
     }
     return $url;
 }

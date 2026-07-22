@@ -42,12 +42,26 @@ if (isset($segments[0]) && in_array($segments[0], ['eng', 'fr'], true)) {
     array_shift($segments);
 }
 
-$slug = isset($segments[0]) ? $segments[0] : 'index';
-
-/* Nieznany adres lub zagnieżdżona ścieżka -> strona 404 */
-if (count($segments) > 1 || !isset($pages[$lang][$slug]) || $slug === '404') {
+/* Segment adresu (przetłumaczony) -> wewnętrzny klucz podstrony */
+if (count($segments) > 1) {
     http_response_code(404);
     $slug = '404';
+} else {
+    $rawSeg = isset($segments[0]) ? $segments[0] : 'index';
+    $key    = slug_to_key($lang, $rawSeg);
+
+    if ($key === null && isset($pages[$lang][$rawSeg]) && $rawSeg !== '404') {
+        /* Stary adres = wewnętrzny klucz (np. /eng/omnie) -> 301 na przetłumaczony URL */
+        header('Location: ' . page_url($lang, $rawSeg), true, 301);
+        exit;
+    }
+
+    if ($key === null || $key === '404') {
+        http_response_code(404);
+        $slug = '404';
+    } else {
+        $slug = $key;
+    }
 }
 
 $page      = $pages[$lang][$slug];

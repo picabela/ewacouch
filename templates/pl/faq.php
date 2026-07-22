@@ -7,9 +7,15 @@
  * wewnętrzne do podstron oferty (w widoku klikalne, w schemacie czysty tekst).
  */
 
-/* Helper: link wewnętrzny do podstrony w bieżącym języku. */
-$link = function ($slug, $label) use ($lang) {
-    return '<a href="' . e(page_url($lang, $slug)) . '">' . e($label) . '</a>';
+/* Helper: link wewnętrzny do podstrony w bieżącym języku. Jeśli dana podstrona
+   nie istnieje w tym języku, zwraca sam tekst (bez linku) - dzięki temu FAQ
+   działa też w wersjach, które nie mają wszystkich podstron. */
+$link = function ($key, $label) use ($lang) {
+    global $pages;
+    if (isset($pages[$lang][$key])) {
+        return '<a href="' . e(page_url($lang, $key)) . '">' . e($label) . '</a>';
+    }
+    return e($label);
 };
 
 $sekcje = array(
@@ -170,7 +176,7 @@ foreach ($sekcje as $s) {
 <p class="tresc">Poniżej znajdują się odpowiedzi na najczęstsze pytania o ofertę, przebieg współpracy i metodę pracy. Kliknij nazwę sekcji, aby rozwinąć pytania.</p>
 <div class="faq-lista">
 <?php foreach ($sekcje as $i => $sekcja): ?>
-	<details class="faq-sekcja-box"<?= $i === 0 ? ' open' : '' ?>>
+	<details class="faq-sekcja-box">
 		<summary class="faq-sum"><h2 class="faq-sekcja"><?= e($sekcja['tytul']) ?></h2></summary>
 		<div class="faq-tresc">
 		<?php foreach ($sekcja['pytania'] as $item): ?>

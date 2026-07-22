@@ -1,7 +1,13 @@
 {
     "_opis": "Rejestr wersji strony. 'aktualna' to numer wersji na gałęzi main. Każdy wpis mapuje numer wersji na commit w repozytorium, żeby dało się wrócić dokładnie do danego stanu (git reset --hard <commit> na gałęzi main). Panel update.php pokazuje 'aktualna' oraz numer wersji przy każdej kopii zapasowej.",
-    "aktualna": "1.3",
+    "aktualna": "1.4",
     "wersje": [
+        {
+            "nr": "1.4",
+            "commit": "",
+            "data": "2026-07-22",
+            "opis": "Tlumaczenia EN/FR: FAQ w EN i FR + przetlumaczone adresy URL (slug) z przekierowaniami 301; wszystkie sekcje FAQ zwiniete"
+        },
         {
             "nr": "1.3",
             "commit": "ecbcf64",
