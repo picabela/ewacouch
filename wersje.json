@@ -4,7 +4,7 @@
     "wersje": [
         {
             "nr": "1.4",
-            "commit": "",
+            "commit": "c627c18",
             "data": "2026-07-22",
             "opis": "Tlumaczenia EN/FR: FAQ w EN i FR + przetlumaczone adresy URL (slug) z przekierowaniami 301; wszystkie sekcje FAQ zwiniete"
         },
