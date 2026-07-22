@@ -66,7 +66,7 @@ define('GA_ID', 'UA-85549321-1');
  * Wymusza na przeglądarkach pobranie świeżych plików zamiast starych z pamięci
  * podręcznej. Zwiększ tę liczbę po KAŻDEJ zmianie w plikach CSS lub JS.
  */
-define('ASSET_VERSION', '4');
+define('ASSET_VERSION', '5');
 
 /* Dane kontaktowe / firmowe (kontakt, stopka, dane strukturalne) */
 $contact = array(

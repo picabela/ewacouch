@@ -1,7 +1,13 @@
 {
     "_opis": "Rejestr wersji strony. 'aktualna' to numer wersji na gałęzi main. Każdy wpis mapuje numer wersji na commit w repozytorium, żeby dało się wrócić dokładnie do danego stanu (git reset --hard <commit> na gałęzi main). Panel update.php pokazuje 'aktualna' oraz numer wersji przy każdej kopii zapasowej.",
-    "aktualna": "1.2",
+    "aktualna": "1.3",
     "wersje": [
+        {
+            "nr": "1.3",
+            "commit": "",
+            "data": "2026-07-22",
+            "opis": "FAQ jako rozwijana harmonijka (accordion) + bezosobowe, SEO-owe sformułowania pytań"
+        },
         {
             "nr": "1.2",
             "commit": "e7d59bf",
