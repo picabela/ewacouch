@@ -1,0 +1,36 @@
+{
+    "_opis": "Rejestr wersji strony. 'aktualna' to numer wersji na gałęzi main. Każdy wpis mapuje numer wersji na commit w repozytorium, żeby dało się wrócić dokładnie do danego stanu (git reset --hard <commit> na gałęzi main). Panel update.php pokazuje 'aktualna' oraz numer wersji przy każdej kopii zapasowej.",
+    "aktualna": "1.0",
+    "wersje": [
+        {
+            "nr": "1.0",
+            "commit": "",
+            "data": "2026-07-22",
+            "opis": "Menedżer plików chronionych i numery wersji w panelu update.php"
+        },
+        {
+            "nr": "0.4",
+            "commit": "e60cc09",
+            "data": "2026-07-22",
+            "opis": "Bezpieczne przywracanie z pełną synchronizacją, pobieranie kopii, konfigurowalny limit"
+        },
+        {
+            "nr": "0.3",
+            "commit": "5444d1d",
+            "data": "2026-07-22",
+            "opis": "Wersjonowanie zasobów (cache-busting) - naprawa braku stylów nagłówka"
+        },
+        {
+            "nr": "0.2",
+            "commit": "d8174ad",
+            "data": "2026-07-22",
+            "opis": "Favicon, powrót do docelowego adresu wysyłki, poprawki SEO nagłówków"
+        },
+        {
+            "nr": "0.1",
+            "commit": "da523fe",
+            "data": "2026-07-21",
+            "opis": "Formularz kontaktowy (PL/EN/FR) w szablonach PHP i panel aktualizacji update.php"
+        }
+    ]
+}

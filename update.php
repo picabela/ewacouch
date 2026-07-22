@@ -36,12 +36,16 @@ define('BACKUP_DIR',  __DIR__ . '/_backups');
 // zapisywany w pliku _backups/settings.json i przetrwa aktualizacje strony.
 define('DEFAULT_MAX_BACKUPS', 5);
 
-// Ścieżki, których aktualizacja/przywracanie/kopia NIGDY nie dotyka
-$GLOBALS['PROTECTED_PATHS'] = array(
+// Ścieżki chronione NA STAŁE - nie można ich odznaczyć w panelu. Pozbawienie
+// ich ochrony groziłoby skasowaniem kopii lub samego panelu przy przywracaniu.
+$GLOBALS['CORE_PROTECTED'] = array(
 	'_backups',    // folder kopii zapasowych
 	'.git',        // repozytorium git (jeśli jest)
-	'blog',        // blog (osobna instalacja, nie ma go w repozytorium)
 	'update.php',  // ten plik (żeby aktualizacja nie wyzerowała hasła)
+);
+// Domyślnie chronione przy pierwszym uruchomieniu - w panelu można to zmienić.
+$GLOBALS['DEFAULT_PROTECTED'] = array(
+	'blog',        // blog (osobna instalacja, nie ma go w repozytorium)
 );
 
 /* ------------------- KONIEC KONFIGURACJI -------------------- */
@@ -58,6 +62,9 @@ if (!function_exists('random_bytes')) {
 if (!function_exists('hash_equals')) {
 	function hash_equals($a, $b) { return (string) $a === (string) $b; }
 }
+
+// Efektywna lista ścieżek chronionych: rdzeń (na stałe) + wybrane w panelu.
+$GLOBALS['PROTECTED_PATHS'] = build_protected_paths();
 
 function is_protected_path($relPath) {
 	$relPath = ltrim(str_replace('\\', '/', $relPath), '/');
@@ -127,6 +134,12 @@ function create_backup(&$error) {
 		return false;
 	}
 
+	// metryczka kopii: numer wersji strony w chwili jej wykonania
+	file_put_contents(backup_sidecar($file), json_encode(array(
+		'wersja'    => current_site_version(),
+		'utworzono' => date('Y-m-d H:i:s'),
+	)));
+
 	rotate_backups();
 	return basename($file);
 }
@@ -148,14 +161,95 @@ function get_max_backups() {
 	return DEFAULT_MAX_BACKUPS;
 }
 
+/** Wczytuje całość ustawień z settings.json (albo pustą tablicę). */
+function read_settings() {
+	$f = settings_file();
+	if (is_file($f)) {
+		$data = json_decode(file_get_contents($f), true);
+		if (is_array($data)) { return $data; }
+	}
+	return array();
+}
+
+/** Zapisuje ustawienia, zachowując pozostałe (niezmieniane) klucze. */
+function write_settings($changes) {
+	ensure_backup_dir();
+	$data = array_merge(read_settings(), $changes);
+	file_put_contents(settings_file(), json_encode($data));
+	return $data;
+}
+
 /** Zapisuje limit kopii (1-100). Zwraca faktycznie ustawioną wartość. */
 function set_max_backups($n) {
 	$n = (int) $n;
 	if ($n < 1)   { $n = 1; }
 	if ($n > 100) { $n = 100; }
-	ensure_backup_dir();
-	file_put_contents(settings_file(), json_encode(array('max_backups' => $n)));
+	write_settings(array('max_backups' => $n));
 	return $n;
+}
+
+/* --- Pliki chronione (rdzeń + wybrane przez użytkownika) --- */
+
+/** Dodatkowe (poza rdzeniem) ścieżki chronione: z ustawień albo domyślne. */
+function get_protected_extra() {
+	$data = read_settings();
+	if (isset($data['protected']) && is_array($data['protected'])) {
+		return array_values(array_filter(array_map('strval', $data['protected'])));
+	}
+	return $GLOBALS['DEFAULT_PROTECTED']; // brak zapisu -> domyślne
+}
+
+/** Buduje pełną listę chronioną: rdzeń + dodatkowe (bez duplikatów). */
+function build_protected_paths() {
+	return array_values(array_unique(array_merge($GLOBALS['CORE_PROTECTED'], get_protected_extra())));
+}
+
+/**
+ * Zapisuje wybór plików chronionych. Przyjmuje nazwy z katalogu głównego;
+ * odrzuca ścieżki nieprawidłowe/nieistniejące oraz rdzeń (ten jest zawsze
+ * chroniony). Zwraca zapisaną listę dodatkowych ścieżek.
+ */
+function set_protected_extra($paths) {
+	$clean = array();
+	foreach ((array) $paths as $p) {
+		$p = trim(str_replace('\\', '/', (string) $p), '/');
+		if ($p === '' || strpos($p, '/') !== false || strpos($p, '..') !== false) { continue; }
+		if (in_array($p, $GLOBALS['CORE_PROTECTED'], true)) { continue; }
+		if (!file_exists(__DIR__ . '/' . $p)) { continue; }
+		$clean[$p] = true;
+	}
+	$list = array_keys($clean);
+	write_settings(array('protected' => $list));
+	return $list;
+}
+
+/** Lista wpisów z katalogu głównego (do menedżera plików chronionych). */
+function list_root_entries() {
+	$root = realpath(__DIR__);
+	$out = array();
+	$dh = @opendir($root);
+	if (!$dh) { return $out; }
+	while (($name = readdir($dh)) !== false) {
+		if ($name === '.' || $name === '..') { continue; }
+		$out[] = array(
+			'name'      => $name,
+			'is_dir'    => is_dir($root . '/' . $name),
+			'is_core'   => in_array($name, $GLOBALS['CORE_PROTECTED'], true),
+			'protected' => is_protected_path($name),
+		);
+	}
+	closedir($dh);
+	usort($out, function ($a, $b) {
+		if ($a['is_dir'] !== $b['is_dir']) { return $a['is_dir'] ? -1 : 1; }
+		return strcasecmp($a['name'], $b['name']);
+	});
+	return $out;
+}
+
+/** Usuwa kopię (ZIP) razem z jej metryczką. */
+function delete_backup_file($zipPath) {
+	@unlink(backup_sidecar($zipPath));
+	return @unlink($zipPath);
 }
 
 /** Usuwa najstarsze kopie ponad aktualny limit. */
@@ -165,7 +259,7 @@ function rotate_backups() {
 	sort($files); // nazwy zawierają datę, więc sortowanie = chronologia
 	$max = get_max_backups();
 	while (count($files) > $max) {
-		@unlink(array_shift($files));
+		delete_backup_file(array_shift($files));
 	}
 }
 
@@ -177,9 +271,10 @@ function list_backups() {
 	$out = array();
 	foreach ($files as $f) {
 		$out[] = array(
-			'name' => basename($f),
-			'size' => filesize($f),
-			'time' => filemtime($f),
+			'name'    => basename($f),
+			'size'    => filesize($f),
+			'time'    => filemtime($f),
+			'version' => backup_version($f),
 		);
 	}
 	return $out;
@@ -365,6 +460,38 @@ function local_version() {
 	return is_array($data) ? $data : null;
 }
 
+/* --- Numery wersji (z pliku wersje.json w repozytorium) --- */
+
+/** Wczytuje rejestr wersji z pliku wersje.json (albo null). */
+function read_versions() {
+	$f = __DIR__ . '/wersje.json';
+	if (!is_file($f)) { return null; }
+	$data = json_decode(file_get_contents($f), true);
+	return is_array($data) ? $data : null;
+}
+
+/** Numer aktualnie zainstalowanej wersji strony (z wersje.json). */
+function current_site_version() {
+	$v = read_versions();
+	if ($v && isset($v['aktualna'])) { return (string) $v['aktualna']; }
+	return '';
+}
+
+/** Ścieżka pliku-metryczki (sidecar) danej kopii: kopia_X.zip -> kopia_X.json */
+function backup_sidecar($zipPath) {
+	return preg_replace('/\.zip$/', '.json', $zipPath);
+}
+
+/** Numer wersji zapisany w metryczce danej kopii (albo pusty). */
+function backup_version($zipPath) {
+	$s = backup_sidecar($zipPath);
+	if (is_file($s)) {
+		$data = json_decode(file_get_contents($s), true);
+		if (is_array($data) && isset($data['wersja'])) { return (string) $data['wersja']; }
+	}
+	return '';
+}
+
 function format_size($bytes) {
 	if ($bytes >= 1048576) { return number_format($bytes / 1048576, 1, ',', ' ') . ' MB'; }
 	if ($bytes >= 1024)    { return number_format($bytes / 1024, 0, ',', ' ') . ' KB'; }
@@ -448,6 +575,7 @@ if ($authed && $_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['do_logout
 		file_put_contents(__DIR__ . '/.version.json', json_encode(array(
 			'sha'        => $remote ? $remote['sha'] : '',
 			'message'    => $remote ? $remote['message'] : '',
+			'version'    => current_site_version(), // numer z właśnie pobranego wersje.json
 			'updated_at' => date('Y-m-d H:i:s'),
 		)));
 
@@ -460,6 +588,16 @@ if ($authed && $_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['do_logout
 		$n = set_max_backups((int) $_POST['max_backups']);
 		rotate_backups(); // od razu zastosuj nowy limit
 		flash('ok', 'Ustawiono limit kopii zapasowych: ' . $n . '. Nadmiarowe (najstarsze) zostały usunięte.');
+		redirect_self();
+	}
+
+	// --- zapis listy plików chronionych ---
+	if (isset($_POST['do_set_protected'])) {
+		$sel = isset($_POST['protected']) && is_array($_POST['protected']) ? $_POST['protected'] : array();
+		$saved = set_protected_extra($sel);
+		flash('ok', 'Zapisano listę plików chronionych. Poza stałymi (' .
+			implode(', ', $GLOBALS['CORE_PROTECTED']) . ') chronionych dodatkowo: ' .
+			(count($saved) ? implode(', ', $saved) : 'brak') . '.');
 		redirect_self();
 	}
 
@@ -526,7 +664,7 @@ if ($authed && $_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['do_logout
 	if (isset($_POST['do_delete'])) {
 		$name = basename((string) $_POST['backup']);
 		$file = BACKUP_DIR . '/' . $name;
-		if (preg_match('/^kopia_[\w\-]+\.zip$/', $name) && file_exists($file) && unlink($file)) {
+		if (preg_match('/^kopia_[\w\-]+\.zip$/', $name) && file_exists($file) && delete_backup_file($file)) {
 			flash('ok', 'Usunięto kopię ' . $name . '.');
 		} else {
 			flash('error', 'Nie udało się usunąć kopii.');
@@ -538,11 +676,13 @@ if ($authed && $_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['do_logout
 $flashes = isset($_SESSION['upd_flash']) ? $_SESSION['upd_flash'] : array();
 unset($_SESSION['upd_flash']);
 
-$backups    = $authed ? list_backups() : array();
-$maxBackups = $authed ? get_max_backups() : DEFAULT_MAX_BACKUPS;
-$local      = $authed ? local_version() : null;
-$remote     = $authed ? remote_version() : null;
-$csrf       = isset($_SESSION['upd_csrf']) ? $_SESSION['upd_csrf'] : '';
+$backups     = $authed ? list_backups() : array();
+$maxBackups  = $authed ? get_max_backups() : DEFAULT_MAX_BACKUPS;
+$rootEntries = $authed ? list_root_entries() : array();
+$siteVersion = $authed ? current_site_version() : '';
+$local       = $authed ? local_version() : null;
+$remote      = $authed ? remote_version() : null;
+$csrf        = isset($_SESSION['upd_csrf']) ? $_SESSION['upd_csrf'] : '';
 
 function e($s) { return htmlspecialchars((string) $s, ENT_QUOTES, 'UTF-8'); }
 ?>
@@ -584,6 +724,8 @@ function e($s) { return htmlspecialchars((string) $s, ENT_QUOTES, 'UTF-8'); }
 	form.retention { margin: 5px 0 4px; font-size: 14px; }
 	form.retention input[type=number] { width: 60px; padding: 5px 6px; border: 1px solid #ccc;
 	         border-radius: 4px; margin: 0 6px; }
+	table.files td { padding: 6px; }
+	table.files td.sub { color: #999; font-size: 12px; }
 </style>
 </head>
 <body>
@@ -621,6 +763,10 @@ function e($s) { return htmlspecialchars((string) $s, ENT_QUOTES, 'UTF-8'); }
 
 	<h2>Wersja strony</h2>
 	<div class="ver">
+		<?php if ($siteVersion !== ''): ?>
+			Wersja strony: <code style="font-weight:bold"><?php echo e($siteVersion); ?></code>
+			<?php if ($local && !empty($local['updated_at'])): ?>(aktualizacja: <?php echo e($local['updated_at']); ?>)<?php endif; ?><br>
+		<?php endif; ?>
 		<?php if ($local): ?>
 			Zainstalowana: <code><?php echo e($local['sha'] ? $local['sha'] : 'nieznana'); ?></code>
 			(aktualizacja: <?php echo e($local['updated_at']); ?>)
@@ -670,10 +816,11 @@ function e($s) { return htmlspecialchars((string) $s, ENT_QUOTES, 'UTF-8'); }
 		<p class="sub">Brak kopii zapasowych.</p>
 	<?php else: ?>
 		<table>
-			<tr><th>Plik</th><th>Data</th><th>Rozmiar</th><th></th></tr>
+			<tr><th>Plik</th><th>Wersja</th><th>Data</th><th>Rozmiar</th><th></th></tr>
 			<?php foreach ($backups as $b): ?>
 			<tr>
 				<td><?php echo e($b['name']); ?></td>
+				<td><?php echo $b['version'] !== '' ? e($b['version']) : '<span style="color:#bbb">—</span>'; ?></td>
 				<td><?php echo date('Y-m-d H:i', $b['time']); ?></td>
 				<td><?php echo format_size($b['size']); ?></td>
 				<td style="white-space:nowrap; text-align:right;">
@@ -699,6 +846,34 @@ function e($s) { return htmlspecialchars((string) $s, ENT_QUOTES, 'UTF-8'); }
 			<?php endforeach; ?>
 		</table>
 	<?php endif; ?>
+
+	<h2>Pliki chronione</h2>
+	<p class="sub">Zaznaczone pliki i foldery z katalogu głównego są chronione:
+	   aktualizacja, kopie i przywracanie ich nie dotykają (nie zostaną nadpisane
+	   ani usunięte). Zaznacz to, co dodałeś ręcznie przez FTP, a co nie należy
+	   do strony. Pozycje z kłódką są chronione zawsze i nie można ich odznaczyć.</p>
+	<form method="post">
+		<input type="hidden" name="csrf" value="<?php echo e($csrf); ?>">
+		<table class="files">
+			<tr><th style="width:40px">Chroń</th><th>Nazwa</th><th>Typ</th></tr>
+			<?php foreach ($rootEntries as $en): ?>
+			<tr>
+				<td style="text-align:center">
+					<?php if ($en['is_core']): ?>
+						<input type="checkbox" checked disabled title="chroniony zawsze">
+						<span title="chroniony zawsze">🔒</span>
+					<?php else: ?>
+						<input type="checkbox" name="protected[]" value="<?php echo e($en['name']); ?>"
+						       <?php echo $en['protected'] ? 'checked' : ''; ?>>
+					<?php endif; ?>
+				</td>
+				<td><?php echo e($en['name']); ?></td>
+				<td class="sub" style="margin:0"><?php echo $en['is_dir'] ? 'folder' : 'plik'; ?></td>
+			</tr>
+			<?php endforeach; ?>
+		</table>
+		<button type="submit" name="do_set_protected" value="1" class="small" style="margin-top:10px">Zapisz listę chronionych</button>
+	</form>
 <?php endif; ?>
 
 </div>

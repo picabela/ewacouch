@@ -41,8 +41,32 @@ w `eng/ajax_email/` i `fr/ajax_email/`.
   kopii możesz w każdej chwili przywrócić nowszą.
 - **Usuń** — kasuje wybraną kopię.
 
-Panel pokazuje też, jaka wersja jest zainstalowana i czy na GitHubie
-jest nowsza.
+Panel pokazuje też **numer wersji** strony (np. `1.0`) oraz wersję, z której
+pochodzi każda kopia zapasowa (kolumna „Wersja").
+
+### Pliki chronione (menedżer)
+
+Na dole panelu jest lista plików i folderów z katalogu głównego z polami do
+zaznaczenia. **Zaznaczone = chronione** — aktualizacja, kopie i przywracanie
+ich nie dotykają (nie nadpiszą ani nie usuną). Zaznacz tu wszystko, co wgrałeś
+ręcznie przez FTP, a co nie należy do strony (np. `faktura.pdf`), żeby
+przywracanie starszej wersji nie skasowało tych plików.
+
+Pozycje z kłódką (`_backups`, `.git`, `update.php`) są chronione zawsze i nie
+da się ich odznaczyć. Wybór zapisuje się w `_backups/settings.json` i przetrwa
+aktualizacje.
+
+Uwaga: plik oznaczony jako chroniony **nie jest zapisywany w kopiach** (skoro
+narzędzie ma go nie dotykać). Jeśli chcesz, żeby jakiś plik był objęty kopiami
+zapasowymi, zostaw go bez ochrony.
+
+### Numery wersji i powrót do starszej wersji na GitHubie
+
+Numery wersji i przypisane im stany repozytorium są w pliku `wersje.json`.
+Jeśli chcesz trwale wrócić do starszej wersji (nie tylko na serwerze, ale też
+tak, żeby kolejne „Aktualizuj z GitHuba" nie przywróciło nowszej), podaj
+numer wersji z panelu osobie zarządzającej repozytorium (lub Claude'owi) —
+na podstawie `wersje.json` można cofnąć gałąź `main` do dokładnie tego stanu.
 
 ### Czego aktualizacja nigdy nie rusza
 
