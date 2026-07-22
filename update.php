@@ -8,9 +8,14 @@
  *
  *  Co potrafi:
  *   - pobiera najnowszą wersję strony z GitHuba i nadpisuje pliki
- *   - przed każdą aktualizacją robi spakowaną kopię zapasową (ZIP)
- *     do folderu _backups (trzymane jest 5 ostatnich kopii)
- *   - pozwala ręcznie utworzyć kopię, przywrócić ją lub usunąć
+ *   - przed każdą aktualizacją i przed każdym przywróceniem robi spakowaną
+ *     kopię zapasową (ZIP) do folderu _backups
+ *   - liczba przechowywanych kopii jest konfigurowalna w panelu
+ *   - pozwala ręcznie utworzyć kopię, pobrać ją, przywrócić lub usunąć
+ *   - PRZYWRACANIE odtwarza DOKŁADNY stan z kopii: nadpisuje zmienione pliki,
+ *     dodaje brakujące i usuwa nadmiarowe (te, których w kopii nie było),
+ *     więc na serwerze nie zostają śmieci. Przed przywróceniem robiona jest
+ *     kopia bezpieczeństwa, więc operację można cofnąć (przywrócić nowszą).
  *
  *  WAŻNE: przed pierwszym użyciem zmień hasło poniżej!
  * ============================================================
@@ -25,9 +30,11 @@ define('UPDATE_PASSWORD', 'zmien-to-haslo');
 define('GITHUB_REPO',   'picabela/ewacouch');
 define('GITHUB_BRANCH', 'main');
 
-// Folder na kopie zapasowe i maksymalna liczba przechowywanych kopii
+// Folder na kopie zapasowe
 define('BACKUP_DIR',  __DIR__ . '/_backups');
-define('MAX_BACKUPS', 5);
+// Domyślny limit przechowywanych kopii. Można go zmienić w panelu - wtedy jest
+// zapisywany w pliku _backups/settings.json i przetrwa aktualizacje strony.
+define('DEFAULT_MAX_BACKUPS', 5);
 
 // Ścieżki, których aktualizacja/przywracanie/kopia NIGDY nie dotyka
 $GLOBALS['PROTECTED_PATHS'] = array(
@@ -124,12 +131,40 @@ function create_backup(&$error) {
 	return basename($file);
 }
 
-/** Usuwa najstarsze kopie ponad limit MAX_BACKUPS. */
+/* --- Ustawienia (limit liczby kopii) zapisywane w _backups/settings.json --- */
+
+function settings_file() { return BACKUP_DIR . '/settings.json'; }
+
+/** Aktualny limit przechowywanych kopii (z pliku ustawień albo domyślny). */
+function get_max_backups() {
+	$f = settings_file();
+	if (is_file($f)) {
+		$data = json_decode(file_get_contents($f), true);
+		if (is_array($data) && isset($data['max_backups'])) {
+			$n = (int) $data['max_backups'];
+			if ($n >= 1 && $n <= 100) { return $n; }
+		}
+	}
+	return DEFAULT_MAX_BACKUPS;
+}
+
+/** Zapisuje limit kopii (1-100). Zwraca faktycznie ustawioną wartość. */
+function set_max_backups($n) {
+	$n = (int) $n;
+	if ($n < 1)   { $n = 1; }
+	if ($n > 100) { $n = 100; }
+	ensure_backup_dir();
+	file_put_contents(settings_file(), json_encode(array('max_backups' => $n)));
+	return $n;
+}
+
+/** Usuwa najstarsze kopie ponad aktualny limit. */
 function rotate_backups() {
 	$files = glob(BACKUP_DIR . '/kopia_*.zip');
 	if ($files === false) { return; }
 	sort($files); // nazwy zawierają datę, więc sortowanie = chronologia
-	while (count($files) > MAX_BACKUPS) {
+	$max = get_max_backups();
+	while (count($files) > $max) {
 		@unlink(array_shift($files));
 	}
 }
@@ -148,6 +183,79 @@ function list_backups() {
 		);
 	}
 	return $out;
+}
+
+/* --- Przywracanie z pełną synchronizacją (bez pozostawiania śmieci) --- */
+
+/**
+ * Iterator po plikach i katalogach strony, z pominięciem ścieżek chronionych
+ * (nie wchodzi do _backups, .git, blog). CHILD_FIRST: najpierw pliki, potem
+ * katalogi - dzięki temu opróżnione katalogi można od razu usuwać.
+ */
+function site_iterator($root) {
+	$filter = new RecursiveCallbackFilterIterator(
+		new RecursiveDirectoryIterator($root, FilesystemIterator::SKIP_DOTS),
+		function ($current) use ($root) {
+			$rel = str_replace('\\', '/', substr($current->getPathname(), strlen($root) + 1));
+			return !($current->isDir() && is_protected_path($rel));
+		}
+	);
+	return new RecursiveIteratorIterator($filter, RecursiveIteratorIterator::CHILD_FIRST);
+}
+
+/** Zbiór ścieżek plików (bez katalogów) zawartych w kopii ZIP. */
+function zip_file_entries($zipPath, &$error) {
+	if (!class_exists('ZipArchive')) { $error = 'Brak rozszerzenia PHP "zip".'; return false; }
+	$zip = new ZipArchive();
+	if ($zip->open($zipPath) !== true) { $error = 'Nie można otworzyć pliku ZIP.'; return false; }
+	$set = array();
+	for ($i = 0; $i < $zip->numFiles; $i++) {
+		$entry = str_replace('\\', '/', $zip->getNameIndex($i));
+		if ($entry === '' || substr($entry, -1) === '/') { continue; } // pomiń katalogi
+		$set[$entry] = true;
+	}
+	$zip->close();
+	return $set;
+}
+
+/**
+ * Usuwa pliki strony, których NIE ma w kopii ($keepSet), oraz opróżnione
+ * katalogi. Nie rusza ścieżek chronionych. Zwraca liczbę usuniętych plików.
+ */
+function sync_delete_extras($root, $keepSet) {
+	$deleted = 0;
+	foreach (site_iterator($root) as $item) {
+		$rel = str_replace('\\', '/', substr($item->getPathname(), strlen($root) + 1));
+		if ($rel === '' || is_protected_path($rel)) { continue; }
+		if ($item->isDir()) {
+			@rmdir($item->getPathname()); // uda się tylko, gdy katalog jest pusty
+			continue;
+		}
+		if (!isset($keepSet[$rel])) {
+			if (@unlink($item->getPathname())) { $deleted++; }
+		}
+	}
+	return $deleted;
+}
+
+/**
+ * Przywraca DOKŁADNY stan strony z kopii ZIP:
+ *  - nadpisuje/dodaje wszystkie pliki z kopii,
+ *  - usuwa pliki i puste katalogi, których w kopii nie było.
+ * Zwraca true/false; przez $stats zwraca liczby zapisanych/usuniętych.
+ */
+function restore_backup($sourceZip, &$error, &$stats) {
+	$stats = array('written' => 0, 'deleted' => 0);
+	$entries = zip_file_entries($sourceZip, $error);
+	if ($entries === false) { return false; }
+
+	$written = apply_zip($sourceZip, false, $error);
+	if ($written === false) { return false; }
+	$stats['written'] = $written;
+
+	$root = realpath(__DIR__);
+	$stats['deleted'] = sync_delete_extras($root, $entries);
+	return true;
 }
 
 /** Pobiera plik z adresu URL (curl albo file_get_contents). */
@@ -347,7 +455,32 @@ if ($authed && $_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['do_logout
 		redirect_self();
 	}
 
-	// --- przywracanie kopii ---
+	// --- ustawienie limitu przechowywanych kopii ---
+	if (isset($_POST['do_set_retention'])) {
+		$n = set_max_backups((int) $_POST['max_backups']);
+		rotate_backups(); // od razu zastosuj nowy limit
+		flash('ok', 'Ustawiono limit kopii zapasowych: ' . $n . '. Nadmiarowe (najstarsze) zostały usunięte.');
+		redirect_self();
+	}
+
+	// --- pobranie wybranej kopii na dysk ---
+	if (isset($_POST['do_download'])) {
+		$name = basename((string) $_POST['backup']);
+		$file = BACKUP_DIR . '/' . $name;
+		if (!preg_match('/^kopia_[\w\-]+\.zip$/', $name) || !file_exists($file)) {
+			flash('error', 'Nie znaleziono wskazanej kopii zapasowej.');
+			redirect_self();
+		}
+		while (ob_get_level()) { ob_end_clean(); }
+		header('Content-Type: application/zip');
+		header('Content-Disposition: attachment; filename="' . $name . '"');
+		header('Content-Length: ' . filesize($file));
+		header('X-Content-Type-Options: nosniff');
+		readfile($file);
+		exit;
+	}
+
+	// --- przywracanie kopii (dokładny stan + kopia bezpieczeństwa) ---
 	if (isset($_POST['do_restore'])) {
 		$name = basename((string) $_POST['backup']);
 		$file = BACKUP_DIR . '/' . $name;
@@ -355,10 +488,37 @@ if ($authed && $_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['do_logout
 			flash('error', 'Nie znaleziono wskazanej kopii zapasowej.');
 			redirect_self();
 		}
+
+		// 1) skopiuj wskazaną kopię do pliku tymczasowego, by przetrwała rotację
+		$tmp = BACKUP_DIR . '/tmp_restore.zip';
+		if (!@copy($file, $tmp)) {
+			flash('error', 'Nie udało się przygotować przywracania (kopiowanie pliku).');
+			redirect_self();
+		}
+
+		// 2) kopia bezpieczeństwa obecnego stanu - żeby operację dało się cofnąć
 		$err = '';
-		$written = apply_zip($file, false, $err);
-		if ($written === false) { flash('error', 'Błąd przywracania: ' . $err); }
-		else { flash('ok', 'Przywrócono kopię ' . $name . ' (' . $written . ' plików).'); }
+		$safety = create_backup($err);
+		if ($safety) {
+			flash('ok', 'Zapisano kopię bezpieczeństwa obecnego stanu: ' . $safety);
+		} else {
+			flash('error', 'Uwaga: nie udało się utworzyć kopii bezpieczeństwa (' . $err .
+				'). Przywracanie zostało przerwane dla bezpieczeństwa.');
+			@unlink($tmp);
+			redirect_self();
+		}
+
+		// 3) odtwórz dokładny stan z kopii (nadpisz/dodaj + usuń nadmiarowe)
+		$stats = array(); $err = '';
+		$ok = restore_backup($tmp, $err, $stats);
+		@unlink($tmp);
+		if (!$ok) {
+			flash('error', 'Błąd przywracania: ' . $err);
+		} else {
+			flash('ok', 'Przywrócono kopię ' . $name . ' - zapisano ' . $stats['written'] .
+				' plików, usunięto ' . $stats['deleted'] . ' nadmiarowych. ' .
+				'Strona odpowiada teraz dokładnie tej kopii.');
+		}
 		redirect_self();
 	}
 
@@ -378,10 +538,11 @@ if ($authed && $_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['do_logout
 $flashes = isset($_SESSION['upd_flash']) ? $_SESSION['upd_flash'] : array();
 unset($_SESSION['upd_flash']);
 
-$backups = $authed ? list_backups() : array();
-$local   = $authed ? local_version() : null;
-$remote  = $authed ? remote_version() : null;
-$csrf    = isset($_SESSION['upd_csrf']) ? $_SESSION['upd_csrf'] : '';
+$backups    = $authed ? list_backups() : array();
+$maxBackups = $authed ? get_max_backups() : DEFAULT_MAX_BACKUPS;
+$local      = $authed ? local_version() : null;
+$remote     = $authed ? remote_version() : null;
+$csrf       = isset($_SESSION['upd_csrf']) ? $_SESSION['upd_csrf'] : '';
 
 function e($s) { return htmlspecialchars((string) $s, ENT_QUOTES, 'UTF-8'); }
 ?>
@@ -420,6 +581,9 @@ function e($s) { return htmlspecialchars((string) $s, ENT_QUOTES, 'UTF-8'); }
 	.ver code { background: #eef2f6; padding: 1px 6px; border-radius: 3px; }
 	.logout { float: right; }
 	form.inline { display: inline; }
+	form.retention { margin: 5px 0 4px; font-size: 14px; }
+	form.retention input[type=number] { width: 60px; padding: 5px 6px; border: 1px solid #ccc;
+	         border-radius: 4px; margin: 0 6px; }
 </style>
 </head>
 <body>
@@ -491,7 +655,17 @@ function e($s) { return htmlspecialchars((string) $s, ENT_QUOTES, 'UTF-8'); }
 	</div>
 	<p class="sub">Aktualizacja nie dotyka folderów: <?php echo e(implode(', ', $GLOBALS['PROTECTED_PATHS'])); ?>.</p>
 
-	<h2>Kopie zapasowe (max <?php echo MAX_BACKUPS; ?>)</h2>
+	<h2>Kopie zapasowe</h2>
+	<form method="post" class="retention">
+		<input type="hidden" name="csrf" value="<?php echo e($csrf); ?>">
+		<label>Przechowuj ostatnich kopii:
+			<input type="number" name="max_backups" min="1" max="100" value="<?php echo e($maxBackups); ?>">
+		</label>
+		<button type="submit" name="do_set_retention" value="1" class="small gray">Zapisz limit</button>
+	</form>
+	<p class="sub">Gdy liczba kopii przekroczy limit, najstarsze są usuwane automatycznie.
+	   Kopia bezpieczeństwa robiona przed przywracaniem też liczy się do limitu.</p>
+
 	<?php if (!$backups): ?>
 		<p class="sub">Brak kopii zapasowych.</p>
 	<?php else: ?>
@@ -503,8 +677,13 @@ function e($s) { return htmlspecialchars((string) $s, ENT_QUOTES, 'UTF-8'); }
 				<td><?php echo date('Y-m-d H:i', $b['time']); ?></td>
 				<td><?php echo format_size($b['size']); ?></td>
 				<td style="white-space:nowrap; text-align:right;">
+					<form method="post" class="inline">
+						<input type="hidden" name="csrf" value="<?php echo e($csrf); ?>">
+						<input type="hidden" name="backup" value="<?php echo e($b['name']); ?>">
+						<button type="submit" name="do_download" value="1" class="small gray">Pobierz</button>
+					</form>
 					<form method="post" class="inline"
-					      onsubmit="return confirm('Przywrócić stronę z kopii <?php echo e($b['name']); ?>?\nObecne pliki zostaną nadpisane.');">
+					      onsubmit="return confirm('Przywrócić stronę z kopii <?php echo e($b['name']); ?>?\n\nStrona zostanie doprowadzona DOKŁADNIE do stanu z tej kopii (pliki nadpisane, brakujące dodane, nadmiarowe usunięte).\n\nNajpierw zostanie zapisana kopia bezpieczeństwa obecnego stanu, więc tę operację będzie można cofnąć.');">
 						<input type="hidden" name="csrf" value="<?php echo e($csrf); ?>">
 						<input type="hidden" name="backup" value="<?php echo e($b['name']); ?>">
 						<button type="submit" name="do_restore" value="1" class="small">Przywróć</button>

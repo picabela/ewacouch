@@ -18,7 +18,7 @@ w `eng/ajax_email/` i `fr/ajax_email/`.
 1. Otwórz plik `update.php` w edytorze.
 2. W linii `define('UPDATE_PASSWORD', 'zmien-to-haslo');` wpisz własne,
    trudne hasło (panel jest zablokowany, dopóki hasło jest domyślne).
-3. Wgraj plik do katalogu głównego strony na serwerze (tam gdzie `index.html`).
+3. Wgraj plik do katalogu głównego strony na serwerze (tam gdzie `index.php`).
 4. Otwórz w przeglądarce: `https://twoja-domena.pl/update.php`.
 
 ### Co robi panel
@@ -27,9 +27,18 @@ w `eng/ajax_email/` i `fr/ajax_email/`.
   (`picabela/ewacouch`, gałąź `main`) i nadpisuje pliki na serwerze.
   **Przed każdą aktualizacją automatycznie tworzy kopię zapasową.**
 - **Utwórz kopię zapasową** — ręcznie pakuje całą stronę do pliku ZIP
-  w folderze `_backups`. Przechowywanych jest maksymalnie **5 ostatnich kopii**
-  (najstarsze są usuwane automatycznie).
-- **Przywróć** — przywraca stronę z wybranej kopii zapasowej.
+  w folderze `_backups`.
+- **Limit kopii** — w polu „Przechowuj ostatnich kopii" ustawiasz, ile kopii
+  ma być trzymanych (1–100). Gdy liczba przekroczy limit, najstarsze są
+  usuwane automatycznie. Ustawienie zapisuje się w `_backups/settings.json`
+  i przetrwa aktualizacje.
+- **Pobierz** — ściąga wybraną kopię ZIP na dysk (np. na wszelki wypadek).
+- **Przywróć** — doprowadza stronę **dokładnie** do stanu z wybranej kopii:
+  nadpisuje zmienione pliki, dodaje brakujące i **usuwa nadmiarowe** (te,
+  których w kopii nie było). Dzięki temu na serwerze nie zostają śmieci.
+  **Przed przywróceniem robiona jest automatyczna kopia bezpieczeństwa**
+  obecnego stanu, więc operację można cofnąć — po przywróceniu starszej
+  kopii możesz w każdej chwili przywrócić nowszą.
 - **Usuń** — kasuje wybraną kopię.
 
 Panel pokazuje też, jaka wersja jest zainstalowana i czy na GitHubie
@@ -47,4 +56,6 @@ jest nowsza.
 1. Wprowadzasz zmiany na GitHubie (edycja plików w repozytorium).
 2. Wchodzisz na `update.php`, logujesz się.
 3. Klikasz **Aktualizuj z GitHuba** — gotowe.
-4. Jeśli coś poszło nie tak — klikasz **Przywróć** przy ostatniej kopii.
+4. Jeśli coś poszło nie tak — klikasz **Przywróć** przy ostatniej dobrej kopii.
+   Strona wróci dokładnie do tamtego stanu, a obecny stan i tak zostanie
+   zapisany jako kopia bezpieczeństwa (możesz go później przywrócić).
