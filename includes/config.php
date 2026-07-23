@@ -58,8 +58,11 @@ if (!defined('BASE_URL')) {
     define('BASE_URL', $scheme . '://' . $host);
 }
 
-/* Identyfikator Google Analytics */
+/* Identyfikator Google Analytics (Universal Analytics - już nieaktywne) */
 define('GA_ID', 'UA-85549321-1');
+
+/* Identyfikator kontenera Google Tag Manager (pusty '' = wyłączony) */
+define('GTM_ID', 'GTM-P9NQMCWM');
 
 /*
  * Wersja zasobów statycznych (CSS/JS) - dopisywana do adresów jako ?v=...

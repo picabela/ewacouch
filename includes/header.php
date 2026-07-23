@@ -74,6 +74,15 @@ if (!$isHome && empty($page['noindex'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<?php if (defined('GTM_ID') && GTM_ID !== ''): ?>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','<?= GTM_ID ?>');</script>
+    <!-- End Google Tag Manager -->
+<?php endif; ?>
     <?php /* Obraz LCP (logo w panelu) - wczesne wykrycie i wysoki priorytet */ ?>
     <link rel="preload" as="image" href="<?= e($assetBase) ?>images/menu-bg-home.png" fetchpriority="high">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -131,16 +140,21 @@ if (!$isHome && empty($page['noindex'])) {
 	</script>
 <?php endif; ?>
 <?php /*
- * Universal Analytics (analytics.js) zostało wyłączone - usługa nie zbiera
- * danych od lipca 2023, a ładowanie skryptu tylko obciążało wynik wydajności.
- * Bieżąca analityka (GA4/Google Tag Manager) jest wpięta poza tym szablonem.
- * Flaga 'ga' w rejestrze podstron pozostaje na przyszłość, gdyby trzeba było
- * warunkowo dołączyć nowy licznik.
+ * Analityka: obsługuje ją Google Tag Manager (kontener wstawiony na górze
+ * <head> oraz w <body>, sterowany stałą GTM_ID w includes/config.php).
+ * Stare Universal Analytics (analytics.js) usunięto - nie zbiera danych od
+ * lipca 2023 i tylko obciążało wydajność.
  */ ?>
     <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
 </head>
 
 <body>
+<?php if (defined('GTM_ID') && GTM_ID !== ''): ?>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<?= e(GTM_ID) ?>"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+<?php endif; ?>
     <div class="main-body">
         <div class="container">
             <div class="row">
