@@ -41,6 +41,14 @@ define('UPDATE_PASSWORD', 'zmien-to-haslo');
 define('GITHUB_REPO',   'wlasciciel/repozytorium');
 define('GITHUB_BRANCH', 'main');
 
+// (OPCJONALNIE) Token dostepu do repozytorium PRYWATNEGO. Dla repo publicznego
+// zostaw pusty ''. Token utworzysz na GitHub: Settings -> Developer settings ->
+// Personal access tokens. Wystarczy prawo ODCZYTU repo:
+//  - token "fine-grained": dostep do wybranego repo, uprawnienie Contents: Read
+//  - albo token klasyczny z zakresem "repo".
+// UWAGA: token daje dostep do kodu - trzymaj go w tajemnicy (patrz README).
+define('GITHUB_TOKEN', '');
+
 // Folder na kopie zapasowe
 define('BACKUP_DIR',  __DIR__ . '/_backups');
 // Domyślny limit przechowywanych kopii. Można go zmienić w panelu - wtedy jest
@@ -371,24 +379,33 @@ function restore_backup($sourceZip, &$error, &$stats) {
 
 /** Pobiera plik z adresu URL (curl albo file_get_contents). */
 function http_download($url, $saveTo = null) {
+	// Dla repozytorium prywatnego dolacz naglowek autoryzacji (tylko do GitHuba).
+	$headers = array();
+	if (defined('GITHUB_TOKEN') && GITHUB_TOKEN !== '' && strpos($url, 'github') !== false) {
+		$headers[] = 'Authorization: Bearer ' . GITHUB_TOKEN;
+	}
 	if (function_exists('curl_init')) {
 		$ch = curl_init($url);
-		curl_setopt_array($ch, array(
+		$opts = array(
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_FOLLOWLOCATION => true,
 			CURLOPT_MAXREDIRS      => 5,
 			CURLOPT_TIMEOUT        => 120,
 			CURLOPT_USERAGENT      => 'site-updater',
 			CURLOPT_SSL_VERIFYPEER => true,
-		));
+		);
+		if ($headers) { $opts[CURLOPT_HTTPHEADER] = $headers; }
+		curl_setopt_array($ch, $opts);
 		$data = curl_exec($ch);
 		$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		curl_close($ch);
 		if ($data === false || $code >= 400) { return false; }
 	} else {
+		$hdr = 'User-Agent: site-updater' . "\r\n";
+		foreach ($headers as $h) { $hdr .= $h . "\r\n"; }
 		$ctx = stream_context_create(array('http' => array(
-			'timeout'       => 120,
-			'user_agent'    => 'site-updater',
+			'timeout'         => 120,
+			'header'          => $hdr,
 			'follow_location' => 1,
 		)));
 		$data = @file_get_contents($url, false, $ctx);
@@ -573,7 +590,12 @@ if ($authed && $_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['do_logout
 		flash('ok', 'Utworzono kopię zapasową przed aktualizacją: ' . $backup);
 
 		$tmp = BACKUP_DIR . '/tmp_aktualizacja.zip';
-		$url = 'https://codeload.github.com/' . GITHUB_REPO . '/zip/refs/heads/' . GITHUB_BRANCH;
+		// Repo prywatne: endpoint API zipball (honoruje token). Publiczne: codeload.
+		if (defined('GITHUB_TOKEN') && GITHUB_TOKEN !== '') {
+			$url = 'https://api.github.com/repos/' . GITHUB_REPO . '/zipball/' . GITHUB_BRANCH;
+		} else {
+			$url = 'https://codeload.github.com/' . GITHUB_REPO . '/zip/refs/heads/' . GITHUB_BRANCH;
+		}
 		if (!http_download($url, $tmp)) {
 			flash('error', 'Nie udało się pobrać nowej wersji z GitHuba. Sprawdź połączenie z internetem na serwerze.');
 			redirect_self();

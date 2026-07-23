@@ -100,12 +100,56 @@ aktualnej wersji oraz wersję, z której pochodzi każda kopia. Format:
 
 Bez tego pliku panel działa normalnie — w kolumnie „Wersja" pokazuje „—".
 
-## Repozytoria prywatne
+### Jeśli projekt piszesz z pomocą AI
 
-Domyślnie narzędzie pobiera z publicznego GitHuba (bez tokenu). Dla repo
-prywatnego trzeba dodać nagłówek autoryzacji z tokenem (Personal Access Token)
-w funkcjach pobierających — daj znać, jeśli tego potrzebujesz, to dopiszę
-obsługę tokenu.
+Wersjonowanie jest **opcjonalne** — nie musisz nic robić, panel zadziała bez
+niego. Jeśli jednak chcesz mieć numery wersji i łatwe cofanie, przekaż AI taką
+instrukcję (gotowiec do wklejenia):
+
+> „W katalogu głównym repozytorium utrzymuj plik `wersje.json` w formacie:
+> `{ "aktualna": "<numer>", "wersje": [ { "nr": "<numer>", "commit": "<skrót
+> commita>", "data": "RRRR-MM-DD", "opis": "<krótki opis zmiany>" } ] }`.
+> Przy każdej istotnej zmianie: podnieś pole `aktualna`, a nowy wpis dodaj **na
+> początek** listy `wersje`; w polu `commit` wpisz skrót commita, który wprowadza
+> tę wersję. Numeruj wersje `GŁÓWNA.PODRZĘDNA` (np. 1.0, 1.1, 1.2), zaczynając od
+> 1.0."
+
+Nazewnictwo wersji jest dowolne — panel po prostu wyświetla tekst z pola
+`aktualna` (może być `1.4`, `2025-01`, `v3` itp.). **Ważne technicznie jest pole
+`commit`** — to ono pozwala wrócić do dokładnego stanu (`git reset --hard
+<commit>`); pole `nr` to tylko czytelna etykieta dla człowieka.
+
+Nie musisz pamiętać skrótu commita z góry — najprościej dodać/uzupełnić `commit`
+zaraz po zatwierdzeniu zmiany (tak jak robi to ta strona). Jeśli pominiesz
+`commit`, numer wersji nadal się wyświetli, ale automatyczne cofnięcie po numerze
+nie zadziała.
+
+## Repozytoria prywatne (token)
+
+Narzędzie obsługuje repozytoria **prywatne**. Wystarczy uzupełnić stałą
+`GITHUB_TOKEN` w konfiguracji na górze `update.php`:
+
+```php
+define('GITHUB_TOKEN', 'ghp_twoj_token');   // puste '' = repo publiczne
+```
+
+Jak zdobyć token na GitHubie (wystarczy prawo **odczytu**):
+
+- **Token „fine-grained"** (zalecany): *Settings → Developer settings →
+  Personal access tokens → Fine-grained tokens*. Nadaj dostęp tylko do tego
+  jednego repozytorium, uprawnienie **Contents: Read-only**. Ustaw datę
+  ważności.
+- **Token klasyczny**: ten sam ekran → *Tokens (classic)* → zakres **`repo`**.
+
+Gdy token jest ustawiony, panel pobiera paczkę przez uwierzytelniony endpoint
+API GitHuba (`zipball`), a sprawdzanie wersji też działa dla repo prywatnego.
+Dla repo publicznego zostaw `GITHUB_TOKEN` pusty.
+
+**Bezpieczeństwo tokenu:** token trzyma się w pliku `update.php`, który jest na
+liście chronionej (aktualizacja go nie nadpisze) i nie jest wysyłany do
+przeglądarki. Nie commituj `update.php` z wpisanym tokenem do publicznego
+repozytorium. Używaj tokenu z minimalnymi uprawnieniami i datą ważności; w razie
+wycieku od razu go unieważnij (Revoke) na GitHubie.
 
 ## Bezpieczeństwo
 
