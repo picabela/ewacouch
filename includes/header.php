@@ -74,8 +74,9 @@ if (!$isHome && empty($page['noindex'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href='https://fonts.googleapis.com/css?family=Lora&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href='https://fonts.googleapis.com/css?family=Lora|Source+Sans+Pro&subset=latin,latin-ext&display=swap' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="<?= e($assetBase) ?>css/bootstrap.css?v=<?= ASSET_VERSION ?>">
     <link rel="stylesheet" type="text/css" href="<?= e($assetBase) ?>css/style.css?v=<?= ASSET_VERSION ?>">
     <meta name="description" content="<?= e($page['description']) ?>">
@@ -94,7 +95,7 @@ if (!$isHome && empty($page['noindex'])) {
     <link rel="alternate" hreflang="x-default" href="<?= e(absolute_url('pl', $alternates['pl'])) ?>">
 <?php endif; ?>
 <?php if (!empty($page['cookies'])): ?>
-    <script type="text/javascript" src="<?= e(BASE_PATH) ?>/whcookies.js?v=<?= ASSET_VERSION ?>"></script>
+    <script defer src="<?= e(BASE_PATH) ?>/whcookies.js?v=<?= ASSET_VERSION ?>"></script>
 <?php endif; ?>
 <?php if (!empty($page['contact_form'])): ?>
     <style type="text/css" media="screen" charset="utf-8">

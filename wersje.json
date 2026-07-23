@@ -1,7 +1,13 @@
 {
     "_opis": "Rejestr wersji strony. 'aktualna' to numer wersji na gałęzi main. Każdy wpis mapuje numer wersji na commit w repozytorium, żeby dało się wrócić dokładnie do danego stanu (git reset --hard <commit> na gałęzi main). Panel update.php pokazuje 'aktualna' oraz numer wersji przy każdej kopii zapasowej.",
-    "aktualna": "1.4",
+    "aktualna": "1.5",
     "wersje": [
+        {
+            "nr": "1.5",
+            "commit": "",
+            "data": "2026-07-22",
+            "opis": "Optymalizacja PageSpeed (mobile): wymiary/alt/lazy obrazkow, fonty display=swap+preconnect, defer cookies, rel=noopener, kompresja hero (-66%)"
+        },
         {
             "nr": "1.4",
             "commit": "c627c18",

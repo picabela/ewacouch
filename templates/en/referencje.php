@@ -8,7 +8,7 @@
 
 
  <br><br><br>
-<img src="<?= e($assetBase) ?>images/link.png"><a href="<?= e(page_url('pl', 'referencje')) ?>">references</a> </p>
+<img src="<?= e($assetBase) ?>images/link.png" alt="" width="24" height="24" decoding="async"><a href="<?= e(page_url('pl', 'referencje')) ?>">references</a> </p>
 
                                         </div>
 

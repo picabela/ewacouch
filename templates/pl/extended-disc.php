@@ -7,7 +7,7 @@
 
                                       <p class="tresc">
 
-                                      <img src="<?= e($assetBase) ?>images/logo.jpg"><br><bR>
+                                      <img src="<?= e($assetBase) ?>images/logo.jpg" alt="Extended Disc" width="239" height="134" decoding="async"><br><bR>
                                        <strong>W pracy z moimi klientami wykorzystuję test Extended Disc®</strong><bR><br>
 
       Extended Disc to narzędzie dedykowane rozwojowi osobistemu. Dostarcza ono respondentowi informacji o jego preferowanych sposobach zachowania, tak zwanych stylach zachowań, co pozwala mu lepiej rozumieć sposoby własnego działania, podejmować lepsze decyzje i wpływać na efektywność w pracy.<br>
@@ -34,7 +34,7 @@ Narzędzie jest przydatne do nazwania potencjału klienta, refleksji o jego zaso
 </ul>
 <br> <p class="tresc"> Moi Klienci doceniają jakość tego narzędzia oraz szerokie spojrzenie. Każdy raport do kilkanaście stron teoretycznej wiedzy, opisu stylu zachowań klienta, zestaw ćwiczeń do refleksji i pracy zarówno z coachem jak i indywidualnej. Dla mnie ważne jest również to, że Extended Disc to marka międzynarodowa, uznawana, rekomendowana przez organizacje na całym świecie, a stosowanie tego narzędzia wymaga specjalnych szkoleń i certyfikacji.<br>
 Extended Disc znajduje zastosowanie nie tylko w coachingu ale również wspiera procesy:<br>
-<img src="<?= e($assetBase) ?>images/kwadrat.jpg" class="kwadrat0"> w branży HR <img src="<?= e($assetBase) ?>images/kwadrat.jpg" class="kwadrat"> w rekrutacjach <img src="<?= e($assetBase) ?>images/kwadrat.jpg" class="kwadrat"> w mentoringu
+<img src="<?= e($assetBase) ?>images/kwadrat.jpg" class="kwadrat0" alt="" width="6" height="6" decoding="async"> w branży HR <img src="<?= e($assetBase) ?>images/kwadrat.jpg" class="kwadrat" alt="" width="6" height="6" decoding="async"> w rekrutacjach <img src="<?= e($assetBase) ?>images/kwadrat.jpg" class="kwadrat" alt="" width="6" height="6" decoding="async"> w mentoringu
  </p>
   <p class="tresc"><br><br>
 <strong> Jak to działa?</strong>

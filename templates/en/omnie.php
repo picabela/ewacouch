@@ -35,7 +35,7 @@ Due to this background, I am multilingual, and can work with clients <span class
 <i>My job and my passion is to accompany people in their professional  and personal development.</i>
 </p>
 <div class="przerwa"></div>
-<img src="<?= e($assetBase) ?>images/podpis.jpg" class="podpis">
+<img src="<?= e($assetBase) ?>images/podpis.jpg" class="podpis" alt="Ewa Wędrychowska – signature" width="659" height="180" loading="lazy" decoding="async">
 <br>
 
 

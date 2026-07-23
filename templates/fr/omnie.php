@@ -34,7 +34,7 @@ Mes langues de travail sont <span class="niebieska"><strong>le polonais, le fran
 <i>Mon métier et ma passion, c’est d’accompagner les autres dans leur développement personnel et professionnel.</i>
 </p>
 <div class="przerwa"></div>
-<img src="<?= e($assetBase) ?>images/podpis.jpg" class="podpis">
+<img src="<?= e($assetBase) ?>images/podpis.jpg" class="podpis" alt="Signature – Ewa Wędrychowska" width="659" height="180" loading="lazy" decoding="async">
 <br>
 
 <p class="duza-prawa">Vous êtes les bienvenus !

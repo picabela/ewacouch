@@ -30,7 +30,7 @@ Posiadam również doświadczenie związane z zarządzaniem ludźmi, przez wiele
 <i>Towarzyszenie ludziom w ich zawodowym i personalnym rozwoju to mój zawód i moja pasja.</i>
 </p>
 <div class="przerwa"></div>
-<img src="<?= e($assetBase) ?>images/podpis.jpg" class="podpis"><br>
+<img src="<?= e($assetBase) ?>images/podpis.jpg" class="podpis" alt="Podpis – Ewa Wędrychowska" width="659" height="180" loading="lazy" decoding="async"><br>
 
 
 <p class="duza-prawa">Zapraszam!
