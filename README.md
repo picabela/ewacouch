@@ -6,12 +6,11 @@ wyłącznie kod (backend) oraz adresy URL na przyjazne SEO.
 
 ---
 
-## Zakres wykonanych prac (podsumowanie dla Klienta)
+## Zakres wykonanych prac 
 
 Poniżej zestawienie wszystkich wprowadzonych zmian i nowych funkcji. Całość
 została wykonana **bez zmiany wyglądu strony** - dotychczasowy layout, kolory
-i treści pozostały nienaruszone. Każda zmiana jest wersjonowana i w razie
-potrzeby możliwa do cofnięcia (patrz: „Panel aktualizacji" poniżej).
+i treści pozostały nienaruszone.
 
 ### 1. Uporządkowanie i modernizacja strony
 - Przeniesienie strony ze statycznego HTML na **nowoczesny system PHP z szablonami**
