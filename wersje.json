@@ -4,7 +4,7 @@
     "wersje": [
         {
             "nr": "1.6",
-            "commit": "",
+            "commit": "d02560d",
             "data": "2026-07-22",
             "opis": "PageSpeed cd.: preload LCP+fetchpriority, fonty bez blokowania renderowania, usuniete martwe UA, landmark <main>, aria-label linkow, dluzszy cache CSS/JS"
         },
