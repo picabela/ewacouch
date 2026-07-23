@@ -74,9 +74,13 @@ if (!$isHome && empty($page['noindex'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php /* Obraz LCP (logo w panelu) - wczesne wykrycie i wysoki priorytet */ ?>
+    <link rel="preload" as="image" href="<?= e($assetBase) ?>images/menu-bg-home.png" fetchpriority="high">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href='https://fonts.googleapis.com/css?family=Lora|Source+Sans+Pro&subset=latin,latin-ext&display=swap' rel='stylesheet' type='text/css'>
+    <?php /* Fonty ładowane bez blokowania renderowania (z fallbackiem dla braku JS) */ ?>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Lora|Source+Sans+Pro&subset=latin,latin-ext&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora|Source+Sans+Pro&subset=latin,latin-ext&display=swap"></noscript>
     <link rel="stylesheet" type="text/css" href="<?= e($assetBase) ?>css/bootstrap.css?v=<?= ASSET_VERSION ?>">
     <link rel="stylesheet" type="text/css" href="<?= e($assetBase) ?>css/style.css?v=<?= ASSET_VERSION ?>">
     <meta name="description" content="<?= e($page['description']) ?>">
@@ -126,18 +130,13 @@ if (!$isHome && empty($page['noindex'])) {
 		});
 	</script>
 <?php endif; ?>
-<?php if (!isset($page['ga']) || $page['ga']): ?>
-    <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', '<?= GA_ID ?>', 'auto');
-  ga('send', 'pageview');
-
-</script>
-<?php endif; ?>
+<?php /*
+ * Universal Analytics (analytics.js) zostało wyłączone - usługa nie zbiera
+ * danych od lipca 2023, a ładowanie skryptu tylko obciążało wynik wydajności.
+ * Bieżąca analityka (GA4/Google Tag Manager) jest wpięta poza tym szablonem.
+ * Flaga 'ga' w rejestrze podstron pozostaje na przyszłość, gdyby trzeba było
+ * warunkowo dołączyć nowy licznik.
+ */ ?>
     <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
 </head>
 
@@ -199,6 +198,6 @@ if (!$isHome && empty($page['noindex'])) {
 
                     </<?= $navTag ?>> <!-- main-navigation -->
 
-                    <div class="content-main">
+                    <main class="content-main">
                         <div class="row margin-b-30">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

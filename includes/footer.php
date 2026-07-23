@@ -11,14 +11,14 @@ if (!defined('EW_SITE')) {
                             </div>
                         </div>
 
-                    </div> <!-- .content-main -->
+                    </main> <!-- .content-main -->
                 </div> <!-- .main-page -->
             </div> <!-- .row -->
             <footer class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 footer">
 <?php if (!empty($page['social_footer'])): ?>
                   <p class="fb">znajdź mnie na: <br>
-                 <a href="<?= e($contact['facebook']) ?>" target="_blank" rel="noopener"> <img src="<?= e($assetBase) ?>images/fb.png" alt="Facebook" width="36" height="36" loading="lazy" decoding="async"></a>&nbsp;  <a href="<?= e($contact['linkedin']) ?>" target="_blank" rel="noopener"><img src="<?= e($assetBase) ?>images/linkedin.png" alt="LinkedIn" width="36" height="36" loading="lazy" decoding="async"></p>
+                 <a href="<?= e($contact['facebook']) ?>" target="_blank" rel="noopener" aria-label="Facebook - Ewa Wędrychowska"> <img src="<?= e($assetBase) ?>images/fb.png" alt="Facebook" width="36" height="36" loading="lazy" decoding="async"></a>&nbsp;  <a href="<?= e($contact['linkedin']) ?>" target="_blank" rel="noopener" aria-label="LinkedIn - Ewa Wędrychowska"><img src="<?= e($assetBase) ?>images/linkedin.png" alt="LinkedIn" width="36" height="36" loading="lazy" decoding="async"></p>
 <?php endif; ?>
                 </div>
             </footer>  <!-- .row -->
