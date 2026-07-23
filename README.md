@@ -4,6 +4,89 @@ Strona Ewy Wędrychowskiej (coaching kariery, doradztwo zawodowe) przeniesiona
 ze statycznego HTML na PHP. Wygląd strony pozostał bez zmian - zmienił się
 wyłącznie kod (backend) oraz adresy URL na przyjazne SEO.
 
+---
+
+## Zakres wykonanych prac (podsumowanie dla Klienta)
+
+Poniżej zestawienie wszystkich wprowadzonych zmian i nowych funkcji. Całość
+została wykonana **bez zmiany wyglądu strony** - dotychczasowy layout, kolory
+i treści pozostały nienaruszone. Każda zmiana jest wersjonowana i w razie
+potrzeby możliwa do cofnięcia (patrz: „Panel aktualizacji" poniżej).
+
+### 1. Uporządkowanie i modernizacja strony
+- Przeniesienie strony ze statycznego HTML na **nowoczesny system PHP z szablonami**
+  - jedna wspólna „ramka" (menu, nagłówek, stopka) dla wszystkich podstron;
+  zmiany wprowadza się w jednym miejscu, a nie w kilkunastu plikach osobno.
+- **Przyjazne adresy URL** (bez końcówki `.html`) z automatycznym
+  przekierowaniem **301** ze starych adresów - bez utraty pozycji w Google.
+- Rok w stopce aktualizowany automatycznie; dodany **favicon** (ikona w karcie
+  przeglądarki).
+
+### 2. Formularz kontaktowy (PL / EN / FR)
+- Działający formularz na stronie kontaktu we wszystkich trzech językach
+  (imię, e-mail, telefon, wiadomość), wysyłany **bez przeładowania strony**.
+- **Ochrona antyspamowa** (ukryta pułapka na boty) oraz walidacja pól.
+- Poprawna obsługa polskich znaków i nagłówek „Reply-To" - można odpowiadać
+  wprost z poczty.
+
+### 3. Sekcja FAQ (najczęściej zadawane pytania)
+- Nowa zakładka **FAQ** w menu, podzielona na **7 sekcji tematycznych** (oferta
+  i kontakt, coaching kariery, executive coaching, rozwój lidera po awansie,
+  life coaching, metoda pracy, Extended Disc).
+- Wygodna **rozwijana „harmonijka"** - pytania rozwijają się po kliknięciu sekcji.
+- **Linkowanie wewnętrzne** do odpowiednich podstron oferty (lepsza nawigacja i SEO).
+- **Dane strukturalne FAQ** (schema.org) - Google może pokazywać pytania
+  i odpowiedzi bezpośrednio w wynikach wyszukiwania.
+- FAQ dostępne również w wersji **angielskiej i francuskiej**.
+
+### 4. Pełna wielojęzyczność i przetłumaczone adresy
+- Wersje **angielska i francuska** z przetłumaczoną treścią (w tym FAQ).
+- **Przetłumaczone adresy URL** w każdym języku (np. `/eng/about-me`,
+  `/fr/coaching-de-carriere`) - lepsze dla SEO i czytelności; stare adresy
+  automatycznie przekierowane (301).
+
+### 5. SEO (widoczność w Google)
+- Poprawna **struktura nagłówków** (jeden `H1` na stronie, logiczna hierarchia).
+- **Mapa strony** (`sitemap.xml`) generowana automatycznie po dodaniu podstron.
+- **Dane strukturalne** (schema.org / JSON-LD), **canonical** oraz **hreflang**
+  (pl / en / fr) na każdej podstronie.
+- Osobne, dopracowane tytuły (`title`) i opisy (`meta description`) stron.
+
+### 6. Wydajność i szybkość (Google PageSpeed, zwłaszcza telefony)
+- **Kompresja głównego zdjęcia** strony głównej o ok. **66%** (bez widocznej
+  różnicy jakości) - szybsze ładowanie i lepszy wynik LCP.
+- Obrazki z **rezerwacją miejsca** (koniec „przeskakiwania" treści przy
+  ładowaniu), leniwym ładowaniem oraz priorytetem dla elementu głównego.
+- **Optymalizacja czcionek** (tekst widoczny od razu, mniej blokowania
+  renderowania), dłuższy **cache** plików, usunięcie zbędnego, nieaktywnego
+  kodu (stare Universal Analytics).
+
+### 7. Dostępność (WCAG) i gotowość pod agenty AI
+- Znacznik **`<main>`**, opisy linków i obrazków (`aria-label`, `alt`) - strona
+  lepiej odczytywana przez czytniki ekranu i narzędzia AI.
+- Bezpieczne linki otwierane w nowej karcie (`rel="noopener"`).
+
+### 8. Analityka
+- Wpięty **Google Tag Manager** (kontener `GTM-TMX8NZXM`) - dalsze tagi
+  (Google Analytics 4, piksele, zdarzenia) konfiguruje się już w panelu GTM,
+  bez ingerencji w kod strony.
+
+### 9. Panel aktualizacji i kopie zapasowe (dla właściciela strony)
+- **`update.php`** - panel chroniony hasłem do **aktualizacji strony z GitHuba
+  jednym kliknięciem**.
+- **Automatyczne kopie zapasowe** (ZIP) przed każdą aktualizacją; konfigurowalny
+  limit kopii; **pobieranie** i **bezpieczne przywracanie** dowolnej kopii
+  (z automatyczną kopią bezpieczeństwa - operację zawsze można cofnąć).
+- **Menedżer plików chronionych** - pliki wgrane ręcznie (np. dokumenty) można
+  oznaczyć jako nietykalne, żeby aktualizacja ich nie usuwała.
+- **Numery wersji** strony - każdą zmianę można w razie potrzeby przywrócić do
+  wcześniejszego stanu (historia w pliku `wersje.json`).
+
+> Szczegółowa historia kolejnych wersji znajduje się w pliku `wersje.json`,
+> a instrukcja obsługi panelu aktualizacji w `AKTUALIZACJA.md`.
+
+---
+
 ## Struktura projektu
 
 ```
@@ -15,10 +98,13 @@ dev-router.php       router do lokalnego testowania (php -S localhost:8080 dev-r
 diagnostyka.php      strona diagnostyczna instalacji (otwórz /diagnostyka.php na serwerze)
 update.php           panel aktualizacji strony z GitHuba (opis w AKTUALIZACJA.md)
 whcookies.js         pasek informacji o cookies (tylko polska strona główna)
+wersje.json          rejestr wersji strony (numer -> commit); pokazywany w update.php
+AKTUALIZACJA.md      instrukcja obsługi panelu aktualizacji i kopii zapasowych
 
 includes/
-  config.php         CAŁA konfiguracja: adres strony, dane kontaktowe, Google
-                     Analytics, menu i rejestr podstron (title, description itd.)
+  config.php         CAŁA konfiguracja: adres strony, dane kontaktowe, Google Tag
+                     Manager (GTM_ID), menu, przetłumaczone adresy (slug) i rejestr
+                     podstron (title, description itd.)
   header.php         wspólny <head> (SEO: canonical, hreflang, JSON-LD) + menu boczne
   footer.php         wspólna stopka
 
@@ -33,14 +119,21 @@ ajax_email/          skrypt wysyłki e-maili (formularz kontaktowy)
 
 ## Adresy URL
 
-Stare adresy `*.html` są przekierowywane (301) na nowe, przyjazne adresy:
+Stare adresy `*.html` są przekierowywane (301) na nowe, przyjazne adresy.
+Dodatkowo adresy podstron w wersji angielskiej i francuskiej są przetłumaczone
+(dawne polskie adresy w tych wersjach również są przekierowane 301):
 
-| stary adres            | nowy adres        |
-|------------------------|-------------------|
-| `/index.html`          | `/`               |
-| `/omnie.html`          | `/omnie`          |
-| `/eng/kontakt.html`    | `/eng/kontakt`    |
-| `/fr/coaching-kariery.html` | `/fr/coaching-kariery` |
+| stary adres                 | nowy adres              |
+|-----------------------------|-------------------------|
+| `/index.html`               | `/`                     |
+| `/omnie.html`               | `/omnie`                |
+| `/eng/omnie` (lub `.html`)  | `/eng/about-me`         |
+| `/eng/kontakt`              | `/eng/contact`          |
+| `/fr/coaching-kariery`      | `/fr/coaching-de-carriere` |
+| `/fr/kontakt`               | `/fr/contact`           |
+
+Przetłumaczone adresy konfiguruje pole `slug` w rejestrze `$pages`
+(`includes/config.php`); wewnętrzne nazwy plików szablonów pozostają bez zmian.
 
 ## SEO
 
@@ -48,9 +141,12 @@ Stare adresy `*.html` są przekierowywane (301) na nowe, przyjazne adresy:
 - **robots.txt** z adresem sitemapy
 - **sitemap.xml** generowana automatycznie z rejestru podstron (`sitemap.php`)
 - **Dane strukturalne** schema.org (JSON-LD): ProfessionalService, WebSite,
-  WebPage, BreadcrumbList - na każdej podstronie
+  WebPage, BreadcrumbList - na każdej podstronie; dodatkowo **FAQPage** na
+  stronie FAQ (możliwość wyświetlenia pytań i odpowiedzi w wynikach Google)
 - **Canonical** i **hreflang** (pl/en/fr + x-default) na każdej podstronie
-- Tagi `title` i `meta description` przeniesione 1:1 ze starej strony
+- Poprawna **struktura nagłówków** (jeden `H1`, hierarchia `H2`/`H3`)
+- Przetłumaczone, przyjazne adresy URL dla wersji EN/FR
+- Tagi `title` i `meta description` dopasowane do każdej podstrony
 - Strona 404 z poprawnym kodem odpowiedzi i `noindex`
 
 ## Jak edytować
