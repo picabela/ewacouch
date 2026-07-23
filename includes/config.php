@@ -62,7 +62,7 @@ if (!defined('BASE_URL')) {
 define('GA_ID', 'UA-85549321-1');
 
 /* Identyfikator kontenera Google Tag Manager (pusty '' = wyłączony) */
-define('GTM_ID', 'GTM-P9NQMCWM');
+define('GTM_ID', 'GTM-TMX8NZXM');
 
 /*
  * Wersja zasobów statycznych (CSS/JS) - dopisywana do adresów jako ?v=...

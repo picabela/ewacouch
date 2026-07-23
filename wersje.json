@@ -1,7 +1,13 @@
 {
     "_opis": "Rejestr wersji strony. 'aktualna' to numer wersji na gałęzi main. Każdy wpis mapuje numer wersji na commit w repozytorium, żeby dało się wrócić dokładnie do danego stanu (git reset --hard <commit> na gałęzi main). Panel update.php pokazuje 'aktualna' oraz numer wersji przy każdej kopii zapasowej.",
-    "aktualna": "1.7",
+    "aktualna": "1.8",
     "wersje": [
+        {
+            "nr": "1.8",
+            "commit": "",
+            "data": "2026-07-22",
+            "opis": "Poprawa ID kontenera Google Tag Manager na GTM-TMX8NZXM"
+        },
         {
             "nr": "1.7",
             "commit": "fbcee39",
