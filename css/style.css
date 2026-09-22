@@ -1793,3 +1793,45 @@ h2.faq-sekcja {
 	summary.faq-sum::after { right: 26px; }
 	.faq-pytanie { margin-right: 30px; }
 }
+/* --- Strona "o mnie": rzad certyfikatow + odreczny podpis --- */
+.certyfikaty-tytul {
+	font-family: 'Lora', Times;
+	font-size: 15px;
+	color: #3b5f78;
+	margin: 30px 80px 12px 60px;
+}
+.certyfikaty {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 30px;
+	margin: 0 80px 10px 60px;
+}
+.certyfikat {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.certyfikat img {
+	display: block;
+	height: 90px;
+	width: auto;
+}
+/* miejsce zarezerwowane na kolejny certyfikat */
+.certyfikat-pusty {
+	width: 110px;
+	height: 90px;
+}
+.podpis-reczny {
+	display: block;
+	max-width: 90%;
+	height: auto;
+	margin: 10px 0 40px 60px;
+}
+@media (max-width: 991px) {
+	.certyfikaty-tytul { margin-right: 30px; }
+	.certyfikaty { margin-right: 30px; gap: 20px; }
+	.certyfikat img { height: 70px; }
+	.certyfikat-pusty { width: 80px; height: 70px; }
+	.podpis-reczny { margin-left: 60px; }
+}

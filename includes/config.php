@@ -69,7 +69,7 @@ define('GTM_ID', 'GTM-TMX8NZXM');
  * Wymusza na przeglądarkach pobranie świeżych plików zamiast starych z pamięci
  * podręcznej. Zwiększ tę liczbę po KAŻDEJ zmianie w plikach CSS lub JS.
  */
-define('ASSET_VERSION', '5');
+define('ASSET_VERSION', '6');
 
 /* Dane kontaktowe / firmowe (kontakt, stopka, dane strukturalne) */
 $contact = array(
