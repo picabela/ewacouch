@@ -184,7 +184,7 @@ $pages = array(
         ),
         'omnie' => array(
             'title'       => 'Coaching Kraków, coach - Ewa Wędrychowska',
-            'description' => 'Jestem certyfikowanym coachem (ACC ICF Erickson College International) oraz dyplomowanym doradcą zawodowym z Krakowa.',
+            'description' => 'Ewa Wędrychowska - coach kariery (PCC ICF), dyplomowany doradca zawodowy i business coach z Krakowa. Wspieram w rozwoju kariery oraz liderów i menedżerów.',
             'alt'         => array('en' => 'omnie', 'fr' => 'omnie'),
         ),
         'coaching-kariery' => array(
@@ -245,7 +245,7 @@ $pages = array(
         'omnie' => array(
             'slug'        => 'about-me',
             'title'       => 'About me - Ewa Wędrychowska',
-            'description' => 'Ewa Wędrychowska, Coach ICF Erickson College and licensed career advisor.',
+            'description' => 'Ewa Wędrychowska - career coach (PCC ICF), licensed career advisor and business coach. Support in career development and for leaders and managers.',
             'alt'         => array('pl' => 'omnie', 'fr' => 'omnie'),
         ),
         'coaching-kariery' => array(
@@ -296,7 +296,7 @@ $pages = array(
         'omnie' => array(
             'slug'        => 'a-propos',
             'title'       => 'Je me présente - Ewa Wędrychowska',
-            'description' => 'Ewa Wędrychowska, coach ICF Erickson College et conseillère professionnelle diplômée.',
+            'description' => 'Ewa Wędrychowska - coach de carrière (PCC ICF), conseillère professionnelle diplômée et business coach. Accompagnement de carrière, leaders et managers.',
             'alt'         => array('pl' => 'omnie', 'en' => 'omnie'),
         ),
         'coaching-kariery' => array(

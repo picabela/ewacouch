@@ -2,42 +2,67 @@
                                 <div class="banner-podstrona">
 
                                         <div class="desc2">
-
-  <div class="odnosnik"> <a class="kont" href="<?= e(page_url($lang, 'kontakt')) ?>"> please contact me here <span class="pom">&#8658;</span></a> </div>
-
-
+                                   <div class="odnosnik"> <a class="kont" href="<?= e(page_url($lang, 'kontakt')) ?>"> book an introductory session   <br>in person or online  <span class="pom">&#8658;</span></a> </div>
 <h1 class="tytul-omnie">About me</h1>
-                                      <p class="tresc-omnie">
-As a certified coach (PCC ICF Erickson College International, Vancouver) and a licensed career advisor (Wyższa Szkoła Europejska (Tischner European University), Krakow), I offer professional support to organizations and private individuals, grounded on the experience I gained during the many years of my work with people, and the sound understanding of business I acquired working in a global corporation. I also hold a diploma of post-graduate HR management college at the AGH (University of Science and Technology), as well as an Iberian Studies degree I received  at the Jagiellonian University.
-</p>
- <p class="tresc-omnie">
-<span class="niebieska"><strong>My services include career coaching, career advising, and life coaching.</strong></span>
-</p>
- <p class="tresc-omnie">
-I work with people who seek to change and advance their professional careers and private lives, as well as with those who wish to find an healthy work-life balance. Assisting my clients in setting relevant goals and achieving them, I lead them through difficult decisions and help them overcome their internal limitations.
+
+<p class="tresc-omnie">
+<span class="niebieska"><strong>Perhaps you are at a point where you are wondering what comes next…</strong></span>
 </p>
 
- <p class="tresc-omnie">
- My business experience spans for over 17 years. As a HR Manager in an international company, my job was to develop, create and optimize <span class="niebieska"><strong> recruitment processes </strong>
- </span>(over 150 projects), organize
- <span class="niebieska"><strong>training and development</strong></span> schemes and supervise training curricula, budgets, and delivery for over 400 employees.  I was responsible for  <span class="niebieska"><strong>talent and performance management </strong></span>– here I gained experience in  <span class="niebieska"><strong>HR project management</strong></span> on both local and international level; i.e., I piloted the ‘My Talent” HR management tool in 3 countries (Poland, Czech Republic and Slovakia) as well as a Business Line Competence Mapping project.
+<p class="tresc-omnie">
+Maybe you are thinking about changing your job, developing your career or starting an entirely new chapter. Or maybe you feel that something in your professional or personal life no longer serves you, that something is out of alignment — but you do not yet know what you actually need.
+</p>
 
+<p class="tresc-omnie">
+My name is <span class="niebieska"><strong>Ewa Wędrychowska</strong></span>. I am a career coach (PCC ICF), a licensed career advisor and a business coach. I support people who want to make better use of their potential, make an important decision, find a new direction or simply understand better what they truly want.
 </p>
- <p class="tresc-omnie">
-During my career I co-operated with  <span class="niebieska"><strong>international and multicultural teams</strong></span>, including French, American, the Czech and Slovakian personnel.
-</p>
- <p class="tresc-omnie">
-Appreciating the value added of a multicultural environment, I find myself at ease working with international clients.
-</p>
- <p class="tresc-omnie">
-Due to this background, I am multilingual, and can work with clients <span class="niebieska"><strong>in Polish, English, French and Spanish.</strong> </span></p>
- <p class="reklama"> <br>
-<i>My job and my passion is to accompany people in their professional  and personal development.</i>
-</p>
-<div class="przerwa"></div>
-<img src="<?= e($assetBase) ?>images/podpis.jpg" class="podpis" alt="Ewa Wędrychowska – signature" width="659" height="180" loading="lazy" decoding="async">
-<br>
 
+<p class="tresc-omnie">
+I also work with <span class="niebieska"><strong>leaders and managers</strong></span> – supporting them in developing leadership competencies, building their own management style, strengthening resilience and mental toughness, and dealing with the challenges that come with their role.
+</p>
+
+<p class="tresc-omnie">
+I have over <span class="niebieska"><strong>17 years of business experience</strong></span>, gained in an international corporation, where as an HR manager I worked in recruitment, employee development, talent management and HR projects. I also have experience in managing a team. Throughout my career I have repeatedly had the opportunity to work <span class="niebieska"><strong>in international and multicultural teams</strong></span>.
+</p>
+
+<p class="tresc-omnie">
+This experience helps me understand the world of organisations well, along with the challenges faced by employees, leaders and managers. <span class="niebieska"><strong>I combine a business and HR perspective with coaching experience</strong></span>, looking at a person’s development both from their individual point of view and in the context of the organisation they work in.
+</p>
+
+<p class="tresc-omnie">
+I provide <span class="niebieska"><strong>career coaching, coaching for leaders and managers, career advisory and business coaching</strong></span>. I also work with organisations in the area of employee and leader development.
+</p>
+
+<p class="tresc-omnie">
+If you feel you are at a point where you need to pause, look at your situation from a different perspective and consider what comes next — <span class="niebieska"><strong>I invite you to get in touch</strong></span>.
+</p>
+
+<p class="reklama">
+<i>Accompanying people in their professional and personal development is my profession and my passion.</i>
+</p>
+
+<p class="certyfikaty-tytul">My key certifications:</p>
+
+<div class="certyfikaty">
+	<div class="certyfikat">
+		<img src="<?= e($assetBase) ?>images/cert-icf-pcc.jpg" alt="ICF PCC – Professional Certified Coach" width="190" height="188" loading="lazy" decoding="async">
+	</div>
+	<div class="certyfikat">
+		<img src="<?= e($assetBase) ?>images/cert-coachhub.jpg" alt="CoachHub Certified Coach" width="244" height="208" loading="lazy" decoding="async">
+	</div>
+	<div class="certyfikat">
+		<img src="<?= e($assetBase) ?>images/cert-extended-disc.jpg" alt="Extended DISC®" width="369" height="208" loading="lazy" decoding="async">
+	</div>
+	<?php /* Space reserved for one more certificate - image to be added later */ ?>
+	<div class="certyfikat certyfikat-pusty"></div>
+</div>
+
+<div class="podpis-blok">
+	<p class="podpis-imie">Ewa Wędrychowska</p>
+	<img src="<?= e($assetBase) ?>images/podpis-reczny.jpg" class="podpis-reczny" alt="Ewa Wędrychowska – signature" width="458" height="91" loading="lazy" decoding="async">
+</div>
+
+<p class="zapraszam-lewo">Get in touch</p>
 
                                         </div>
 

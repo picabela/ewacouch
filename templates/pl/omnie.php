@@ -62,7 +62,7 @@ Jeśli czujesz, że jesteś w momencie, w którym potrzebujesz zatrzymać się, 
 	<img src="<?= e($assetBase) ?>images/podpis-reczny.jpg" class="podpis-reczny" alt="Podpis – Ewa Wędrychowska" width="458" height="91" loading="lazy" decoding="async">
 </div>
 
-<p class="zapraszam-lewo">Zapraszam!</p>
+<p class="zapraszam-lewo">Zapraszam</p>
 
                                         </div>
 
