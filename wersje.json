@@ -1,7 +1,13 @@
 {
     "_opis": "Rejestr wersji strony. 'aktualna' to numer wersji na gałęzi main. Każdy wpis mapuje numer wersji na commit w repozytorium, żeby dało się wrócić dokładnie do danego stanu (git reset --hard <commit> na gałęzi main). Panel update.php pokazuje 'aktualna' oraz numer wersji przy każdej kopii zapasowej.",
-    "aktualna": "2.0",
+    "aktualna": "2.1",
     "wersje": [
+        {
+            "nr": "2.1",
+            "commit": "",
+            "data": "2026-09-22",
+            "opis": "Zakladka 'o mnie': wieksze i rozstawione logo certyfikatow, podpis z imieniem do prawej, 'Zapraszam' do lewej (wg szkicu)"
+        },
         {
             "nr": "2.0",
             "commit": "60d9eb1",

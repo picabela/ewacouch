@@ -1793,18 +1793,20 @@ h2.faq-sekcja {
 	summary.faq-sum::after { right: 26px; }
 	.faq-pytanie { margin-right: 30px; }
 }
-/* --- Strona "o mnie": rzad certyfikatow + odreczny podpis --- */
+/* --- Strona "o mnie": rzad certyfikatow, podpis i "Zapraszam" --- */
 .certyfikaty-tytul {
 	font-family: 'Lora', Times;
 	font-size: 15px;
 	color: #3b5f78;
-	margin: 30px 80px 12px 60px;
+	margin: 30px 80px 18px 60px;
 }
+/* logo rozstawione w rzedzie (1 ... 2 ... 3 ... 4) */
 .certyfikaty {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: 30px;
+	justify-content: space-between;
+	gap: 25px 30px;
 	margin: 0 80px 10px 60px;
 }
 .certyfikat {
@@ -1814,24 +1816,44 @@ h2.faq-sekcja {
 }
 .certyfikat img {
 	display: block;
-	height: 90px;
+	height: 120px;
 	width: auto;
 }
 /* miejsce zarezerwowane na kolejny certyfikat */
 .certyfikat-pusty {
-	width: 110px;
-	height: 90px;
+	width: 140px;
+	height: 120px;
+}
+/* podpis wyrownany do prawej, nad nim imie i nazwisko */
+.podpis-blok {
+	margin: 35px 80px 0 60px;
+	text-align: right;
+}
+.podpis-imie {
+	font-family: 'Lora', Times;
+	font-size: 17px;
+	color: #3b5f78;
+	margin: 0 0 6px;
 }
 .podpis-reczny {
-	display: block;
-	max-width: 90%;
+	display: inline-block;
+	max-width: 100%;
 	height: auto;
-	margin: 10px 0 40px 60px;
+	margin: 0;
+}
+/* "Zapraszam" do lewej */
+.zapraszam-lewo {
+	font-size: 30px;
+	font-family: 'Lora', Times;
+	color: #3b5f78;
+	text-align: left;
+	margin: 10px 80px 40px 60px;
 }
 @media (max-width: 991px) {
 	.certyfikaty-tytul { margin-right: 30px; }
-	.certyfikaty { margin-right: 30px; gap: 20px; }
-	.certyfikat img { height: 70px; }
-	.certyfikat-pusty { width: 80px; height: 70px; }
-	.podpis-reczny { margin-left: 60px; }
+	.certyfikaty { justify-content: flex-start; margin-right: 30px; gap: 20px; }
+	.certyfikat img { height: 90px; }
+	.certyfikat-pusty { width: 100px; height: 90px; }
+	.podpis-blok { margin-right: 30px; }
+	.zapraszam-lewo { margin-right: 30px; font-size: 26px; }
 }

@@ -57,13 +57,12 @@ Jeśli czujesz, że jesteś w momencie, w którym potrzebujesz zatrzymać się, 
 	<div class="certyfikat certyfikat-pusty"></div>
 </div>
 
-<div class="przerwa"></div>
+<div class="podpis-blok">
+	<p class="podpis-imie">Ewa Wędrychowska</p>
+	<img src="<?= e($assetBase) ?>images/podpis-reczny.jpg" class="podpis-reczny" alt="Podpis – Ewa Wędrychowska" width="458" height="91" loading="lazy" decoding="async">
+</div>
 
-<img src="<?= e($assetBase) ?>images/podpis-reczny.jpg" class="podpis-reczny" alt="Podpis – Ewa Wędrychowska" width="458" height="91" loading="lazy" decoding="async">
-
-<p class="duza-prawa">Zapraszam!
-</p>
-
+<p class="zapraszam-lewo">Zapraszam!</p>
 
                                         </div>
 
