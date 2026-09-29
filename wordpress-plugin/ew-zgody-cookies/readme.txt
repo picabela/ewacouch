@@ -1,7 +1,8 @@
 === EW Zgody Cookies (Consent Mode v2) ===
 Requires at least: 4.7
+Tested up to: 7.1
 Requires PHP: 5.4
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPL-2.0-or-later
 
 Okno zgód cookies i Google Consent Mode v2 dla bloga – wspólne ze stroną
@@ -20,6 +21,10 @@ główną ewedrychowska-coaching.pl.
 * Każdy wybór trafia do rejestru zgód strony głównej (_backups/zgody/).
 
 == Instalacja ==
+
+Gotowy plik do wgrania: wordpress-plugin/ew-zgody-cookies.zip w repozytorium
+(na GitHubie: otwórz plik -> przycisk „Download raw file”).
+Przetestowana na WordPress 7.1.2 z PHP 8.4 oraz zgodna ze starszym WP 4.7 / PHP 5.6.
 
 1. Kokpit bloga → Wtyczki → Dodaj nową → Wyślij wtyczkę na serwer →
    wybierz plik ew-zgody-cookies.zip → Zainstaluj → Włącz.

@@ -2,9 +2,10 @@
 /**
  * Plugin Name: EW Zgody Cookies (Consent Mode v2)
  * Description: Okno zgód cookies i Google Consent Mode v2 wspólne ze stroną główną ewedrychowska-coaching.pl. Baner, wygląd i wykaz cookies są wczytywane ze strony głównej, więc blog zawsze ma tę samą wersję, a zgoda wyrażona na stronie obowiązuje też na blogu (i odwrotnie).
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: Ewa Wędrychowska
  * Requires at least: 4.7
+ * Tested up to: 7.1
  * Requires PHP: 5.4
  * License: GPL-2.0-or-later
  * Text Domain: ew-zgody-cookies
@@ -14,7 +15,7 @@ if (!defined('ABSPATH')) {
 	exit;
 }
 
-define('EWC_PLUGIN_VERSION', '1.0.0');
+define('EWC_PLUGIN_VERSION', '1.1.0');
 define('EWC_PLUGIN_DIR', dirname(__FILE__));
 
 /* Adresy polityki prywatności na stronie głównej (ścieżki względem domeny). */
@@ -42,7 +43,11 @@ function ewc_defaults() {
 
 function ewc_settings() {
 	$saved = get_option('ewc_settings', array());
-	return wp_parse_args(is_array($saved) ? $saved : array(), ewc_defaults());
+	$s = wp_parse_args(is_array($saved) ? $saved : array(), ewc_defaults());
+	foreach ($s as $k => $v) {
+		$s[$k] = is_scalar($v) ? (string) $v : '';
+	}
+	return $s;
 }
 
 /** Adres strony głównej (protokół + domena), z której wczytywany jest skrypt zgód. */
@@ -258,10 +263,37 @@ function ewc_policy_page_seo() {
 	if (!$post || !has_shortcode($post->post_content, 'ew_polityka_prywatnosci')) {
 		return;
 	}
+	$canonical = ewc_policy_url();
+
+	/* robots: WordPress 5.7+ ma własny znacznik (filtr wp_robots), starsze - dopisujemy */
+	if (function_exists('wp_robots')) {
+		add_filter('wp_robots', function ($robots) {
+			$robots['noindex'] = true;
+			$robots['follow'] = true;
+			unset($robots['index'], $robots['max-image-preview']);
+			return $robots;
+		});
+	}
+
+	/* Wtyczki SEO wypisują własne canonical/robots - podmieniamy ich wartości. */
+	add_filter('wpseo_canonical', function () use ($canonical) { return $canonical; });
+	add_filter('wpseo_robots', function () { return 'noindex, follow'; });
+	add_filter('rank_math/frontend/canonical', function () use ($canonical) { return $canonical; });
+	add_filter('rank_math/frontend/robots', function ($robots) {
+		$robots = is_array($robots) ? $robots : array();
+		$robots['index'] = 'noindex';
+		$robots['follow'] = 'follow';
+		return $robots;
+	});
+
 	remove_action('wp_head', 'rel_canonical');
-	add_action('wp_head', function () {
-		echo '<meta name="robots" content="noindex, follow">' . "\n";
-		echo '<link rel="canonical" href="' . esc_url(ewc_policy_url()) . '">' . "\n";
+	add_action('wp_head', function () use ($canonical) {
+		if (!function_exists('wp_robots')) {
+			echo '<meta name="robots" content="noindex, follow">' . "\n";
+		}
+		if (!defined('WPSEO_VERSION') && !class_exists('RankMath')) {
+			echo '<link rel="canonical" href="' . esc_url($canonical) . '">' . "\n";
+		}
 	}, 1);
 }
 
@@ -276,16 +308,22 @@ function ewc_admin_menu() {
 
 add_action('admin_init', 'ewc_admin_init');
 function ewc_admin_init() {
-	register_setting('ewc_settings_group', 'ewc_settings', 'ewc_sanitize');
+	register_setting('ewc_settings_group', 'ewc_settings', array(
+		'type'              => 'array',
+		'sanitize_callback' => 'ewc_sanitize',
+		'default'           => ewc_defaults(),
+	));
 }
 
 function ewc_sanitize($in) {
 	$in = is_array($in) ? $in : array();
+	/* (string) - odporność na nieoczekiwane typy danych (PHP 8+) */
+	$get = function ($k) use ($in) { return isset($in[$k]) && is_scalar($in[$k]) ? trim((string) $in[$k]) : ''; };
 	$out = ewc_defaults();
-	$out['site_url'] = isset($in['site_url']) ? esc_url_raw(untrailingslashit(trim($in['site_url']))) : '';
-	$out['gtm_id'] = isset($in['gtm_id']) ? strtoupper(sanitize_text_field($in['gtm_id'])) : '';
-	$out['lang'] = isset($in['lang']) && in_array($in['lang'], array('auto', 'pl', 'en', 'fr'), true) ? $in['lang'] : 'auto';
-	$out['policy_url'] = isset($in['policy_url']) ? esc_url_raw(trim($in['policy_url'])) : '';
+	$out['site_url'] = esc_url_raw(untrailingslashit($get('site_url')));
+	$out['gtm_id'] = strtoupper(sanitize_text_field($get('gtm_id')));
+	$out['lang'] = in_array($get('lang'), array('auto', 'pl', 'en', 'fr'), true) ? $get('lang') : 'auto';
+	$out['policy_url'] = esc_url_raw($get('policy_url'));
 	$out['log'] = !empty($in['log']) ? '1' : '0';
 	foreach (array('pl', 'en', 'fr') as $l) {
 		delete_transient('ewc_policy_' . $l); // nowe ustawienia = świeża kopia polityki

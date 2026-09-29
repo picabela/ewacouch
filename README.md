@@ -86,8 +86,9 @@ i treści pozostały nienaruszone.
   data i wybór zapisywane w `_backups/zgody/` (dostępne przez FTP, bez
   dostępu z przeglądarki, automatycznie czyszczone po 24 miesiącach).
 - **Blog (WordPress)** - wtyczka `wordpress-plugin/ew-zgody-cookies`
-  korzysta z tego samego okna zgód co strona; zgoda wyrażona raz obowiązuje
-  na stronie i na blogu.
+  (gotowa paczka: `wordpress-plugin/ew-zgody-cookies.zip`) korzysta z tego
+  samego okna zgód co strona; zgoda wyrażona raz obowiązuje na stronie i na
+  blogu. Przetestowana na WordPress 7.1.2 / PHP 8.4, działa też na starym WP 4.7.
 
 ### 10. Panel aktualizacji i kopie zapasowe (dla właściciela strony)
 - **`update.php`** - panel chroniony hasłem do **aktualizacji strony z GitHuba
@@ -119,7 +120,8 @@ consent/             zgody cookies (wspólne dla strony i bloga):
   consent-init.js    domyślne zgody Consent Mode v2 (wstawiane inline przed GTM)
   consent.js/.css    okno zgód, panel ustawień, wykaz cookies (PL/EN/FR)
   log.php            rejestr zgód -> _backups/zgody/zgody-RRRR-MM.csv
-wordpress-plugin/    wtyczka WordPress dla bloga (ew-zgody-cookies), niedostępna z sieci
+wordpress-plugin/    wtyczka WordPress dla bloga: źródło + gotowy ew-zgody-cookies.zip
+                     (folder niedostępny z przeglądarki na serwerze strony)
 wersje.json          rejestr wersji strony (numer -> commit); pokazywany w update.php
 AKTUALIZACJA.md      instrukcja obsługi panelu aktualizacji i kopii zapasowych
 
