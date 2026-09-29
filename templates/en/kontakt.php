@@ -42,6 +42,7 @@ Email:  <a href="mailto:<?= e($contact['email']) ?>"><?= e($contact['email']) ?>
                                             <input class="submit" type="submit" value="Send message">
                                           </div>
                                         </form>
+                                        <p class="form-rodo">The data provided in this form is processed by Ewa Wędrychowska solely to reply to your message. More information: <a href="<?= e(page_url($lang, 'pliki')) ?>">Privacy policy</a>.</p>
                                         <div id="log"><div id="log_res"></div></div>
                                       </div>
 

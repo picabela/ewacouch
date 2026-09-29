@@ -40,7 +40,7 @@ AddDefaultCharset UTF-8
 
     # blokada bezposredniego dostepu do plikow wewnetrznych
     # (front controller zwroci strone 404)
-    RewriteRule ^(includes|templates)(/|$) index.php [L]
+    RewriteRule ^(includes|templates|wordpress-plugin)(/|$) index.php [L]
 
     # przyjazne adresy URL -> front controller
     RewriteCond %{REQUEST_FILENAME} !-f

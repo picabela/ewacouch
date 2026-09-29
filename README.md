@@ -70,7 +70,26 @@ i treści pozostały nienaruszone.
   (Google Analytics 4, piksele, zdarzenia) konfiguruje się już w panelu GTM,
   bez ingerencji w kod strony.
 
-### 9. Panel aktualizacji i kopie zapasowe (dla właściciela strony)
+### 9. Polityka prywatności i zgody cookies (RODO, Google Consent Mode v2)
+- Nowa **polityka prywatności i plików cookies** w PL / EN / FR
+  (`/polityka-prywatnosci`, `/eng/privacy-policy`, `/fr/politique-de-confidentialite`;
+  dawny adres `/pliki` przekierowuje 301). Link w stopce każdej podstrony
+  i krótka informacja RODO pod formularzem kontaktowym.
+- Własne **okno zgód** w kolorystyce strony (zamiast starego paska
+  „Rozumiem”): akceptuj / odrzuć / dostosuj, 4 kategorie (niezbędne,
+  preferencje, statystyczne, marketingowe), wykaz plików cookie, ikona do
+  ponownej zmiany ustawień.
+- **Google Consent Mode v2** - domyślnie wszystko odrzucone, zgody
+  przekazywane do Google Tag Managera przed uruchomieniem jakiegokolwiek tagu;
+  po odmowie usuwane są pliki cookie danej kategorii.
+- **Rejestr zgód** (dowód zgody wymagany przez RODO) - identyfikator zgody,
+  data i wybór zapisywane w `_backups/zgody/` (dostępne przez FTP, bez
+  dostępu z przeglądarki, automatycznie czyszczone po 24 miesiącach).
+- **Blog (WordPress)** - wtyczka `wordpress-plugin/ew-zgody-cookies`
+  korzysta z tego samego okna zgód co strona; zgoda wyrażona raz obowiązuje
+  na stronie i na blogu.
+
+### 10. Panel aktualizacji i kopie zapasowe (dla właściciela strony)
 - **`update.php`** - panel chroniony hasłem do **aktualizacji strony z GitHuba
   jednym kliknięciem**.
 - **Automatyczne kopie zapasowe** (ZIP) przed każdą aktualizacją; konfigurowalny
@@ -96,7 +115,11 @@ robots.txt           wskazówki dla robotów + adres sitemapy
 dev-router.php       router do lokalnego testowania (php -S localhost:8080 dev-router.php)
 diagnostyka.php      strona diagnostyczna instalacji (otwórz /diagnostyka.php na serwerze)
 update.php           panel aktualizacji strony z GitHuba (opis w AKTUALIZACJA.md)
-whcookies.js         pasek informacji o cookies (tylko polska strona główna)
+consent/             zgody cookies (wspólne dla strony i bloga):
+  consent-init.js    domyślne zgody Consent Mode v2 (wstawiane inline przed GTM)
+  consent.js/.css    okno zgód, panel ustawień, wykaz cookies (PL/EN/FR)
+  log.php            rejestr zgód -> _backups/zgody/zgody-RRRR-MM.csv
+wordpress-plugin/    wtyczka WordPress dla bloga (ew-zgody-cookies), niedostępna z sieci
 wersje.json          rejestr wersji strony (numer -> commit); pokazywany w update.php
 AKTUALIZACJA.md      instrukcja obsługi panelu aktualizacji i kopii zapasowych
 

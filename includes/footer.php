@@ -25,6 +25,7 @@ if (!defined('EW_SITE')) {
 <?php if (!empty($langCfg['copyright'])): ?>
             <div class="row"><p style="text-align:center;margin-top: 10px;color: #999;font-size: 12px;">Copyrights <?= date('Y') ?> Ewa Wędrychowska Coach | <?= e($contact['street']) ?>, <?= e($contact['postcode']) ?> <?= e($contact['city']) ?></p></div> <!-- .row -->
 <?php endif; ?>
+            <div class="row"><p class="stopka-linki"><a href="<?= e(page_url($lang, 'pliki')) ?>"><?= e($langCfg['footer_links'][0]) ?></a> &nbsp;&middot;&nbsp; <a href="#ustawienia-cookies" data-ewc-open><?= e($langCfg['footer_links'][1]) ?></a></p></div>
         </div> <!-- .container -->
     </div> <!-- .main-body -->
 

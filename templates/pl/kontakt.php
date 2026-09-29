@@ -44,6 +44,7 @@ Email:  <a href="mailto:<?= e($contact['email']) ?>"><?= e($contact['email']) ?>
                                             <input class="submit" type="submit" value="Wyślij wiadomość">
                                           </div>
                                         </form>
+                                        <p class="form-rodo">Administratorem danych podanych w formularzu jest Ewa Wędrychowska. Dane wykorzystam wyłącznie, aby odpowiedzieć na Twoją wiadomość. Więcej informacji: <a href="<?= e(page_url($lang, 'pliki')) ?>">Polityka prywatności</a>.</p>
                                         <div id="log"><div id="log_res"></div></div>
                                       </div>
 

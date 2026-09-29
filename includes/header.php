@@ -74,6 +74,9 @@ if (!$isHome && empty($page['noindex'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php /* Zgody cookies: domyślny stan Google Consent Mode v2 (+ przywrócenie
+       zapisanego wyboru) - MUSI być przed Google Tag Managerem. */ ?>
+    <script><?= trim(preg_replace('#/\*.*?\*/#s', '', file_get_contents(dirname(__DIR__) . '/consent/consent-init.js'))) ?></script>
 <?php if (defined('GTM_ID') && GTM_ID !== ''): ?>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -107,9 +110,8 @@ if (!$isHome && empty($page['noindex'])) {
 <?php if ($alternates): ?>
     <link rel="alternate" hreflang="x-default" href="<?= e(absolute_url('pl', $alternates['pl'])) ?>">
 <?php endif; ?>
-<?php if (!empty($page['cookies'])): ?>
-    <script defer src="<?= e(BASE_PATH) ?>/whcookies.js?v=<?= ASSET_VERSION ?>"></script>
-<?php endif; ?>
+    <?php /* Baner i panel zgód cookies (wspólny ze stroną bloga) */ ?>
+    <script defer src="<?= e(BASE_PATH) ?>/consent/consent.js?v=<?= ASSET_VERSION ?>" data-lang="<?= e($lang) ?>" data-policy="<?= e(page_url($lang, 'pliki')) ?>" data-log="<?= e(BASE_PATH) ?>/consent/log.php"></script>
 <?php if (!empty($page['contact_form'])): ?>
     <style type="text/css" media="screen" charset="utf-8">
 	@import url("<?= e($assetBase) ?>ajax_email/style.css?v=<?= ASSET_VERSION ?>");

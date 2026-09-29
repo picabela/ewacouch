@@ -69,7 +69,7 @@ define('GTM_ID', 'GTM-TMX8NZXM');
  * Wymusza na przeglądarkach pobranie świeżych plików zamiast starych z pamięci
  * podręcznej. Zwiększ tę liczbę po KAŻDEJ zmianie w plikach CSS lub JS.
  */
-define('ASSET_VERSION', '7');
+define('ASSET_VERSION', '8');
 
 /* Dane kontaktowe / firmowe (kontakt, stopka, dane strukturalne) */
 $contact = array(
@@ -114,6 +114,7 @@ $languages = array(
         ),
         'not_found'     => array('Strona nie została znaleziona', 'Strona, której szukasz, nie istnieje lub została przeniesiona.', 'Wróć na stronę główną'),
         'form_error'    => 'Wystąpił błąd. Spróbuj ponownie lub napisz bezpośrednio na e-mail.',
+        'footer_links'  => array('Polityka prywatności', 'Ustawienia cookies'),
     ),
     'en' => array(
         'dir'           => 'eng/',
@@ -134,6 +135,7 @@ $languages = array(
         ),
         'not_found'     => array('Page not found', 'The page you are looking for does not exist or has been moved.', 'Back to the home page'),
         'form_error'    => 'An error occurred. Please try again or contact me directly by e-mail.',
+        'footer_links'  => array('Privacy policy', 'Cookie settings'),
     ),
     'fr' => array(
         'dir'           => 'fr/',
@@ -154,6 +156,7 @@ $languages = array(
         ),
         'not_found'     => array('Page introuvable', 'La page que vous recherchez n’existe pas ou a été déplacée.', 'Retour à la page d’accueil'),
         'form_error'    => 'Une erreur est survenue. Veuillez réessayer ou m’écrire directement par e-mail.',
+        'footer_links'  => array('Politique de confidentialité', 'Paramètres des cookies'),
     ),
 );
 
@@ -166,7 +169,6 @@ $languages = array(
  *  slug          - segment adresu URL (domyślnie = klucz podstrony)
  *  home          - strona główna (inny układ banera i menu w <aside>)
  *  ga            - czy dołączyć Google Analytics
- *  cookies       - czy dołączyć skrypt paska cookies (whcookies.js)
  *  contact_form  - czy dołączyć skrypty formularza kontaktowego (ajax_email)
  *  social_footer - czy pokazać ikony FB/LinkedIn w stopce
  *  alt           - odpowiedniki strony w innych językach: slug, null = brak ('#')
@@ -178,7 +180,6 @@ $pages = array(
             'title'         => 'Coaching menedżerski, Coach Kraków - Ewa Wędrychowska',
             'description'   => 'Ewa Wędrychowska, Coach ICF Erickson College, prowadzę coaching kariery, doradztwo zawodowe, life coaching menedżerski. Zapraszam',
             'home'          => true,
-            'cookies'       => true,
             'social_footer' => true,
             'alt'           => array('en' => 'index', 'fr' => 'index'),
         ),
@@ -229,10 +230,10 @@ $pages = array(
             'alt'         => array('en' => 'faq', 'fr' => 'faq'),
         ),
         'pliki' => array(
-            'title'       => 'Polityka Plików Cookies - Ewa Wędrychowska',
-            'description' => 'Polityka plików Cookies w serwisie ewedrychowska.com.pl.',
-            'ga'          => false,
-            'alt'         => array('en' => null, 'fr' => 'index'),
+            'slug'        => 'polityka-prywatnosci',
+            'title'       => 'Polityka prywatności i plików cookies - Ewa Wędrychowska',
+            'description' => 'Polityka prywatności strony ewedrychowska-coaching.pl: administrator danych, cele i podstawy przetwarzania, pliki cookies, zgody (Consent Mode v2) i Twoje prawa.',
+            'alt'         => array('en' => 'pliki', 'fr' => 'pliki'),
         ),
     ),
     'en' => array(
@@ -285,6 +286,12 @@ $pages = array(
             'description' => 'Frequently asked questions about the coaching offer, sessions, working method and contact: career coaching, executive coaching, life coaching and Extended Disc.',
             'alt'         => array('pl' => 'faq', 'fr' => 'faq'),
         ),
+        'pliki' => array(
+            'slug'        => 'privacy-policy',
+            'title'       => 'Privacy and cookie policy - Ewa Wędrychowska',
+            'description' => 'Privacy policy of ewedrychowska-coaching.pl: data controller, purposes and legal bases of processing, cookies, consent (Consent Mode v2) and your rights.',
+            'alt'         => array('pl' => 'pliki', 'fr' => 'pliki'),
+        ),
     ),
     'fr' => array(
         'index' => array(
@@ -335,6 +342,12 @@ $pages = array(
             'title'       => 'FAQ - coaching de carrière et de vie - Ewa Wędrychowska',
             'description' => 'Questions fréquentes sur l’offre de coaching, les séances, la méthode de travail et le contact : coaching de carrière, coaching exécutif, coaching de vie et Extended Disc.',
             'alt'         => array('pl' => 'faq', 'en' => 'faq'),
+        ),
+        'pliki' => array(
+            'slug'        => 'politique-de-confidentialite',
+            'title'       => 'Politique de confidentialité et cookies - Ewa Wędrychowska',
+            'description' => 'Politique de confidentialité du site ewedrychowska-coaching.pl : responsable du traitement, finalités et bases légales, cookies, consentement (Consent Mode v2) et vos droits.',
+            'alt'         => array('pl' => 'pliki', 'en' => 'pliki'),
         ),
     ),
 );

@@ -34,7 +34,7 @@ if (preg_match('#\.html$#', $path)) {
 }
 
 /* blokada katalogow wewnetrznych */
-if (preg_match('#^/(includes|templates)(/|$)#', $path)) {
+if (preg_match('#^/(includes|templates|wordpress-plugin)(/|$)#', $path)) {
     http_response_code(404);
     require __DIR__ . '/index.php';
     return true;
