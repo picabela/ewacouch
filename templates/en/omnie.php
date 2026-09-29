@@ -53,8 +53,9 @@ If you feel you are at a point where you need to pause, look at your situation f
 	<div class="certyfikat">
 		<img src="<?= e($assetBase) ?>images/cert-extended-disc.jpg" alt="Extended DISC®" width="369" height="208" loading="lazy" decoding="async">
 	</div>
-	<?php /* Space reserved for one more certificate - image to be added later */ ?>
-	<div class="certyfikat certyfikat-pusty"></div>
+	<div class="certyfikat">
+		<img src="<?= e($assetBase) ?>images/cert-mtqplus.jpg" alt="MTQPlus" width="395" height="208" loading="lazy" decoding="async">
+	</div>
 </div>
 
 <div class="podpis-blok">

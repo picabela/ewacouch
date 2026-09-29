@@ -53,8 +53,9 @@ Jeśli czujesz, że jesteś w momencie, w którym potrzebujesz zatrzymać się, 
 	<div class="certyfikat">
 		<img src="<?= e($assetBase) ?>images/cert-extended-disc.jpg" alt="Extended DISC®" width="369" height="208" loading="lazy" decoding="async">
 	</div>
-	<?php /* Miejsce zarezerwowane na kolejny certyfikat - grafika dojdzie pozniej */ ?>
-	<div class="certyfikat certyfikat-pusty"></div>
+	<div class="certyfikat">
+		<img src="<?= e($assetBase) ?>images/cert-mtqplus.jpg" alt="MTQPlus" width="395" height="208" loading="lazy" decoding="async">
+	</div>
 </div>
 
 <div class="podpis-blok">

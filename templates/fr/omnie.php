@@ -53,8 +53,9 @@ Si vous sentez que vous êtes à un moment où vous avez besoin de faire une pau
 	<div class="certyfikat">
 		<img src="<?= e($assetBase) ?>images/cert-extended-disc.jpg" alt="Extended DISC®" width="369" height="208" loading="lazy" decoding="async">
 	</div>
-	<?php /* Place réservée pour une certification supplémentaire - image à venir */ ?>
-	<div class="certyfikat certyfikat-pusty"></div>
+	<div class="certyfikat">
+		<img src="<?= e($assetBase) ?>images/cert-mtqplus.jpg" alt="MTQPlus" width="395" height="208" loading="lazy" decoding="async">
+	</div>
 </div>
 
 <div class="podpis-blok">
