@@ -4,7 +4,7 @@
     "wersje": [
         {
             "nr": "2.4",
-            "commit": "PENDING",
+            "commit": "11b63f4",
             "data": "2026-09-29",
             "opis": "Polityka prywatnosci PL/EN/FR + wlasne okno zgod cookies z Google Consent Mode v2, rejestr zgod, wtyczka WordPress dla bloga; usuniety stary pasek whcookies.js"
         },
