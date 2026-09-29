@@ -4,7 +4,7 @@
     "wersje": [
         {
             "nr": "2.5",
-            "commit": "PENDING",
+            "commit": "2ac0d3c",
             "data": "2026-09-29",
             "opis": "Wtyczka WP ew-zgody-cookies 1.1.0: zgodnosc z WordPress 7.1 / PHP 8+ (wp_robots, register_setting, Yoast/Rank Math), gotowy ZIP w repozytorium"
         },
