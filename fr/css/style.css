@@ -1781,7 +1781,7 @@ h2.faq-sekcja {
 }
 .certyfikat img {
 	display: block;
-	height: 80px;
+	height: 53px;
 	width: auto;
 }
 /* miejsce zarezerwowane na kolejny certyfikat */
@@ -1817,7 +1817,7 @@ h2.faq-sekcja {
 @media (max-width: 991px) {
 	.certyfikaty-tytul { margin-right: 30px; }
 	.certyfikaty { justify-content: flex-start; margin-right: 30px; gap: 20px; }
-	.certyfikat img { height: 60px; }
+	.certyfikat img { height: 40px; }
 	.certyfikat-pusty { width: 100px; height: 90px; }
 	.podpis-blok { margin-right: 30px; }
 	.zapraszam-lewo { margin-right: 30px; font-size: 26px; }
