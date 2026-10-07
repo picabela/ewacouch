@@ -44,10 +44,10 @@ If you feel you are at a point where you need to pause, look at your situation f
 <p class="certyfikaty-tytul">My key certifications:</p>
 
 <div class="certyfikaty">
-	<div class="certyfikat">
+	<div class="certyfikat certyfikat-wiekszy">
 		<img src="<?= e($assetBase) ?>images/cert-icf-pcc.jpg" alt="ICF PCC – Professional Certified Coach" width="190" height="188" loading="lazy" decoding="async">
 	</div>
-	<div class="certyfikat">
+	<div class="certyfikat certyfikat-wiekszy">
 		<img src="<?= e($assetBase) ?>images/cert-coachhub.jpg" alt="CoachHub Certified Coach" width="244" height="208" loading="lazy" decoding="async">
 	</div>
 	<div class="certyfikat">

@@ -44,10 +44,10 @@ Si vous sentez que vous êtes à un moment où vous avez besoin de faire une pau
 <p class="certyfikaty-tytul">Mes principales certifications :</p>
 
 <div class="certyfikaty">
-	<div class="certyfikat">
+	<div class="certyfikat certyfikat-wiekszy">
 		<img src="<?= e($assetBase) ?>images/cert-icf-pcc.jpg" alt="ICF PCC – Professional Certified Coach" width="190" height="188" loading="lazy" decoding="async">
 	</div>
-	<div class="certyfikat">
+	<div class="certyfikat certyfikat-wiekszy">
 		<img src="<?= e($assetBase) ?>images/cert-coachhub.jpg" alt="CoachHub Certified Coach" width="244" height="208" loading="lazy" decoding="async">
 	</div>
 	<div class="certyfikat">

@@ -1784,6 +1784,8 @@ h2.faq-sekcja {
 	height: 53px;
 	width: auto;
 }
+/* dwa pierwsze logo (ICF PCC, CoachHub) - o 1/3 wieksze */
+.certyfikat-wiekszy img { height: 71px; }
 /* miejsce zarezerwowane na kolejny certyfikat */
 .certyfikat-pusty {
 	width: 140px;
@@ -1818,6 +1820,7 @@ h2.faq-sekcja {
 	.certyfikaty-tytul { margin-right: 30px; }
 	.certyfikaty { justify-content: flex-start; margin-right: 30px; gap: 20px; }
 	.certyfikat img { height: 40px; }
+	.certyfikat-wiekszy img { height: 53px; }
 	.certyfikat-pusty { width: 100px; height: 90px; }
 	.podpis-blok { margin-right: 30px; }
 	.zapraszam-lewo { margin-right: 30px; font-size: 26px; }
